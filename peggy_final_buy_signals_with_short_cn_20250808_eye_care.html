@@ -1,0 +1,6939 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>股票数据监控</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+/* 护眼风格CSS - table_styles_eye_care.css */
+/* 专为股票监控表格优化的护眼配色方案 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Microsoft YaHei', 'PingFang SC', Arial, sans-serif;
+    background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 50%, #e8f5e9 100%);
+    padding: 15px;
+    color: #2e4a2e;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #fafff5;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(76, 114, 76, 0.12);
+    overflow: hidden;
+}
+
+/* 头部信息 */
+.header {
+    background: linear-gradient(135deg, #81c784 0%, #a5d6a7 100%);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 22px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.header-info {
+    font-size: 14px;
+    opacity: 0.95;
+    text-align: right;
+}
+
+/* 表格容器 - 支持左右滑动 */
+.table-wrapper {
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: 15px;
+    background: white;
+    position: relative;
+}
+
+table {
+    width: auto;
+    min-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 13px;
+}
+
+/* 表头样式 */
+thead th {
+    background: linear-gradient(180deg, #c8e6c9 0%, #b2dfdb 100%);
+    color: #1b5e20;
+    padding: 10px 8px;
+    text-align: left;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 2px solid #81c784;
+    white-space: nowrap;
+}
+
+/* 特定列的表头颜色 */
+th.time-header {
+    background: linear-gradient(180deg, #b0bec5 0%, #cfd8dc 100%);
+}
+
+th.code-header {
+    background: linear-gradient(180deg, #b39ddb 0%, #c5cae9 100%);
+}
+
+th.amount-header {
+    background: linear-gradient(180deg, #ffcc80 0%, #ffe0b2 100%);
+}
+
+th.star-header {
+    background: linear-gradient(180deg, #fff59d 0%, #fff9c4 100%);
+}
+
+th.signal-header {
+    background: linear-gradient(180deg, #a5d6a7 0%, #c8e6c9 100%);
+}
+
+/* 表格行 */
+tbody tr {
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #e8f5e9;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f9fff9;
+}
+
+tbody tr:hover {
+    background-color: #e8f5e9;
+    transform: translateX(2px);
+    box-shadow: 2px 0 8px rgba(76, 114, 76, 0.1);
+}
+
+/* 单元格基础样式 */
+td {
+    padding: 9px 8px;
+    color: #2e4a2e;
+    border-right: 1px solid #f1f8e9;
+}
+
+td:last-child {
+    border-right: none;
+}
+
+/* 时间列 */
+.time-cell {
+    color: #5d4037;
+    font-weight: 500;
+    background: rgba(189, 189, 189, 0.05);
+}
+
+/* 代码列 */
+.code-cell {
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-weight: 600;
+    color: #4527a0;
+    letter-spacing: 0.5px;
+}
+
+/* 名称列 - 固定宽度，显示4个汉字 */
+.name-cell {
+    font-weight: 500;
+    color: #1b5e20;
+    max-width: 80px;
+    min-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.name-cell:hover {
+    background-color: rgba(129, 199, 132, 0.1);
+}
+
+/* 表头特殊样式 */
+th.name-header {
+    min-width: 80px;
+    max-width: 80px;
+}
+
+th.amount-header {
+    min-width: 80px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+/* 成本价列 */
+.price-cell {
+    text-align: right;
+    font-family: 'Consolas', monospace;
+    color: #283593;
+    font-weight: 500;
+}
+
+/* 成交额列 */
+.amount-cell {
+    text-align: right;
+    font-family: 'Consolas', monospace;
+    font-weight: 600;
+    padding-right: 15px;
+}
+
+/* 成交额TOP3高亮 - 护眼配色 */
+.top1-amount {
+    background: linear-gradient(90deg, #fff9c4 0%, #ffeb3b 100%);
+    color: #f57c00;
+    font-weight: bold;
+    position: relative;
+}
+
+.top1-amount::before {
+    content: "🥇";
+    position: absolute;
+    left: 3px;
+    font-size: 14px;
+}
+
+.top2-amount {
+    background: linear-gradient(90deg, #e0e0e0 0%, #bdbdbd 100%);
+    color: #424242;
+    font-weight: bold;
+    position: relative;
+}
+
+.top2-amount::before {
+    content: "🥈";
+    position: absolute;
+    left: 3px;
+    font-size: 14px;
+}
+
+.top3-amount {
+    background: linear-gradient(90deg, #ffccbc 0%, #ff8a65 100%);
+    color: #bf360c;
+    font-weight: bold;
+    position: relative;
+}
+
+.top3-amount::before {
+    content: "🥉";
+    position: absolute;
+    left: 3px;
+    font-size: 14px;
+}
+
+/* 星级列 */
+.star-cell {
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 1px;
+    min-width: 80px;
+}
+
+/* 信号可信分列 */
+.signal-score-cell {
+    text-align: center;
+    font-weight: 600;
+    font-family: 'Consolas', monospace;
+}
+
+.signal-high {
+    color: #2e7d32;
+    background: rgba(46, 125, 50, 0.08);
+}
+
+.signal-medium {
+    color: #f57c00;
+    background: rgba(245, 124, 0, 0.08);
+}
+
+.signal-low {
+    color: #c62828;
+    background: rgba(198, 40, 40, 0.08);
+}
+
+/* 可信等级列 */
+.trust-level-cell {
+    text-align: center;
+    font-weight: 500;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.trust-high {
+    background: #c8e6c9;
+    color: #1b5e20;
+}
+
+.trust-medium {
+    background: #fff9c4;
+    color: #f57c00;
+}
+
+.trust-low {
+    background: #ffcdd2;
+    color: #c62828;
+}
+
+/* 量能可信度列 */
+.volume-trust-cell {
+    text-align: center;
+    font-weight: 500;
+}
+
+/* 出现次数列 */
+.count-cell {
+    text-align: center;
+    font-family: 'Consolas', monospace;
+    font-weight: 600;
+    color: #5e35b1;
+}
+
+/* STRENGTH列 */
+.strength-cell {
+    text-align: right;
+    font-family: 'Consolas', monospace;
+    font-weight: 500;
+}
+
+.strength-positive {
+    color: #2e7d32;
+}
+
+.strength-negative {
+    color: #c62828;
+}
+
+.strength-neutral {
+    color: #757575;
+}
+
+/* 空值 */
+.empty-cell {
+    color: #bdbdbd;
+    text-align: center;
+    font-size: 12px;
+}
+
+/* 统计区域 */
+.stats-container {
+    background: linear-gradient(135deg, #e8f5e9 0%, #f3e5f5 100%);
+    padding: 20px;
+    border-top: 2px solid #81c784;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.stat-card {
+    background: white;
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid #81c784;
+}
+
+.stat-label {
+    color: #757575;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    color: #2e7d32;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* 滚动条美化 */
+::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f8e9;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #81c784;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #66bb6a;
+}
+
+/* 响应式设计 */
+@media screen and (max-width: 768px) {
+    .container {
+        border-radius: 0;
+        max-width: 100%;
+    }
+
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .header-info {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    table {
+        font-size: 11px;
+    }
+
+    td, th {
+        padding: 6px 4px;
+    }
+}
+
+/* 打印优化 */
+@media print {
+    body {
+        background: white;
+    }
+
+    .container {
+        box-shadow: none;
+    }
+
+    tbody tr:hover {
+        background-color: transparent;
+        transform: none;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>股票数据监控</h1>
+            <div class="header-info">
+                <div>A股 | 2025年08月08日</div>
+                <div>生成时间: 10:01:55</div>
+                <div>数据条数: 28</div>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                    
+                        
+                            <th class="time-header">时间</th>
+                        
+                    
+                        
+                            <th class="code-header">代码</th>
+                        
+                    
+                        
+                            <th class="name-header">股票名称</th>
+                        
+                    
+                        
+                            <th>成本价</th>
+                        
+                    
+                        
+                            
+                                <th class="amount-header">成交额<br>(万元)</th>
+                            
+                        
+                    
+                        
+                            <th class="star-header">星级</th>
+                        
+                    
+                        
+                            <th class="signal-header">信号可信分</th>
+                        
+                    
+                        
+                            <th>可信等级</th>
+                        
+                    
+                        
+                            <th>量能可信度</th>
+                        
+                    
+                        
+                            <th>出现次数</th>
+                        
+                    
+                        
+                            <th class="short-signal-header">开空信号</th>
+                        
+                    
+                        
+                            <th class="change-header">较12日最低涨幅%</th>
+                        
+                    
+                        
+                            <th>跳空分析</th>
+                        
+                    
+                        
+                            <th>技术位分析</th>
+                        
+                    
+                        
+                            <th>开空分析</th>
+                        
+                    
+                        
+                            <th>MA20斜率</th>
+                        
+                    
+                        
+                            <th>RV3</th>
+                        
+                    
+                        
+                            <th>RV4</th>
+                        
+                    
+                    </tr>
+                </thead>
+                <tbody>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">600366</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="宁波韵升">
+                                
+                                    
+                                    
+                                        宁波韵升
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    14.0
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell top1-amount">159746.6</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    100
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell">极高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">高</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">24.11%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+6.3%">
+                                
+                                    跳空高开+6.3%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(12.05)+16.1%, MA20(12.13)+15.5%">
+                                
+                                    MA5(12.05)+16.1%, MA...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+6.3%，较12日最低价涨24.1%，目标回撤至MA20(≥13.4%)">
+                                
+                                    跳空高开+6.3%，较12日最低价涨24...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="strength-cell"><span class="empty-cell">-</span></td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    18.98
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    2.76
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">600619</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="海立股份">
+                                
+                                    
+                                    
+                                        海立股份
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    19.91
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell top2-amount">137106.7</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    84
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-high">高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-yes">开空</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">44.69%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+1.0%">
+                                
+                                    小幅高开+1.0%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(17.01)+17.1%, MA20(16.18)+23.0%">
+                                
+                                    MA5(17.01)+17.1%, MA...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+1.0%，较12日最低价涨44.7%，目标回撤≥5%或至布林带中轨">
+                                
+                                    小幅高开+1.0%，较12日最低价涨44...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.12%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    7.75
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.3
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">000901</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="航天科技">
+                                
+                                    
+                                    
+                                        航天科技
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    15.42
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell top3-amount">110676.7</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    78
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell">较高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">22.97%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开">
+                                
+                                    平开
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(14.46)+6.6%, MA20(13.47)+14.5%">
+                                
+                                    MA5(14.46)+6.6%, MA2...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开，较12日最低价涨23.0%，目标回撤≥3%或至MA5">
+                                
+                                    平开，较12日最低价涨23.0%，目标回...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.14%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    7.74
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.04
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">601929</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="吉视传媒">
+                                
+                                    
+                                    
+                                        吉视传媒
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    2.54
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">108409.9</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    84
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-high">高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-yes">开空</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">39.56%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+3.7%">
+                                
+                                    跳空高开+3.7%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(2.19)+16.0%, MA20(2.03)+25.4%">
+                                
+                                    MA5(2.19)+16.0%, MA2...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+3.7%，较12日最低价涨39.6%，目标回撤至MA20(≥20.2%)">
+                                
+                                    跳空高开+3.7%，较12日最低价涨39...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.02%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    9.42
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.1
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">601718</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="际华集团">
+                                
+                                    
+                                    
+                                        际华集团
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    5.0
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">90227.6</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    96
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell">极高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-yes">开空</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">30.55%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+4.2%">
+                                
+                                    跳空高开+4.2%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(4.45)+12.3%, MA20(4.17)+20.0%">
+                                
+                                    MA5(4.45)+12.3%, MA2...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+4.2%，较12日最低价涨30.5%，目标回撤至MA20(≥16.7%)">
+                                
+                                    跳空高开+4.2%，较12日最低价涨30...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.03%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    7.85
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.86
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">300455</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="航天智装">
+                                
+                                    
+                                    
+                                        航天智装
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    18.03
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">84877.9</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    81
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-high">高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-yes">开空</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">30.09%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+1.0%">
+                                
+                                    小幅高开+1.0%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(16.05)+12.3%, MA20(14.89)+21.1%">
+                                
+                                    MA5(16.05)+12.3%, MA...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+1.0%，较12日最低价涨30.1%，目标回撤≥5%或至布林带中轨">
+                                
+                                    小幅高开+1.0%，较12日最低价涨30...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.16%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    7.87
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.14
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">600775</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="南京熊猫">
+                                
+                                    
+                                    
+                                        南京熊猫
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    12.2
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">77631.7</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    100
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell">极高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">高</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">17.53%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+2.5%">
+                                
+                                    小幅高开+2.5%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(11.31)+7.8%, MA20(10.87)+12.2%">
+                                
+                                    MA5(11.31)+7.8%, MA2...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+2.5%，较12日最低价涨17.5%，未达开空条件(需≥20%)">
+                                
+                                    小幅高开+2.5%，较12日最低价涨17...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.05%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    14.53
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    3.12
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">002414</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="高德红外">
+                                
+                                    
+                                    
+                                        高德红外
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    13.4
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">75441.4</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    64
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-medium">中</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-yes">开空</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">28.11%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开">
+                                
+                                    平开
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(12.15)+10.3%, MA20(11.43)+17.3%">
+                                
+                                    MA5(12.15)+10.3%, MA...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开，较12日最低价涨28.1%，目标回撤≥3%或至MA5">
+                                
+                                    平开，较12日最低价涨28.1%，目标回...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.09%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    4.79
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.05
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">300058</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="蓝色光标">
+                                
+                                    
+                                    
+                                        蓝色光标
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    7.07
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">68352.0</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    99
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell">极高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">较高</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">9.78%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+1.4%">
+                                
+                                    小幅高开+1.4%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(7.08)-0.1%, MA20(6.82)+3.7%">
+                                
+                                    MA5(7.08)-0.1%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+1.4%，较12日最低价涨9.8%，未达开空条件(需≥20%)">
+                                
+                                    小幅高开+1.4%，较12日最低价涨9....
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.02%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    8.3
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    2.57
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">600110</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="诺德股份">
+                                
+                                    
+                                    
+                                        诺德股份
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    6.11
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">63347.9</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    80
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-high">高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">9.89%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开">
+                                
+                                    平开
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(6.19)-1.3%, MA20(5.94)+2.9%">
+                                
+                                    MA5(6.19)-1.3%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开，较12日最低价涨9.9%，未达开空条件(需≥20%)">
+                                
+                                    平开，较12日最低价涨9.9%，未达开空...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.03%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    6.24
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.46
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">002342</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="巨力索具">
+                                
+                                    
+                                    
+                                        巨力索具
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    7.2
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">56733.0</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    99
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell">极高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">较高</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">6.51%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开">
+                                
+                                    平开
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(7.19)+0.2%, MA20(7.27)-1.0%">
+                                
+                                    MA5(7.19)+0.2%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开，较12日最低价涨6.5%，未达开空条件(需≥20%)">
+                                
+                                    平开，较12日最低价涨6.5%，未达开空...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="strength-cell"><span class="empty-cell">-</span></td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    10.4
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    2.86
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">600744</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="华银电力">
+                                
+                                    
+                                    
+                                        华银电力
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    6.91
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">53507.2</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    81
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-high">高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">2.52%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空低开-1.7%">
+                                
+                                    跳空低开-1.7%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(6.89)+0.2%, MA20(7.15)-3.3%">
+                                
+                                    MA5(6.89)+0.2%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空低开-1.7%，较12日最低价涨2.5%，未达开空条件(需≥20%)">
+                                
+                                    跳空低开-1.7%，较12日最低价涨2....
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-negative">-0.02%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    10.06
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.04
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">688660</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="电气风电">
+                                
+                                    
+                                    
+                                        电气风电
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    16.8
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">43961.7</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    62
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-medium">中</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-yes">开空</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">52.45%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+1.8%">
+                                
+                                    小幅高开+1.8%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(15.20)+10.5%, MA20(14.23)+18.1%">
+                                
+                                    MA5(15.20)+10.5%, MA...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+1.8%，较12日最低价涨52.5%，目标回撤≥5%或至布林带中轨">
+                                
+                                    小幅高开+1.8%，较12日最低价涨52...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.11%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    4.66
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.33
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">002022</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="科华生物">
+                                
+                                    
+                                    
+                                        科华生物
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    7.8
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">41453.3</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    86
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-high">高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">较高</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">17.29%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空低开-1.9%">
+                                
+                                    跳空低开-1.9%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(7.34)+6.2%, MA20(7.03)+10.9%">
+                                
+                                    MA5(7.34)+6.2%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空低开-1.9%，较12日最低价涨17.3%，未达开空条件(需≥20%)">
+                                
+                                    跳空低开-1.9%，较12日最低价涨17...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.04%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    16.6
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.29
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">600651</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="飞乐音响">
+                                
+                                    
+                                    
+                                        飞乐音响
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    6.31
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">41052.3</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    76
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell">较高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-yes">开空</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">43.08%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开">
+                                
+                                    平开
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(5.97)+5.7%, MA20(5.31)+18.7%">
+                                
+                                    MA5(5.97)+5.7%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开，较12日最低价涨43.1%，目标回撤≥5%或至布林带中轨">
+                                
+                                    平开，较12日最低价涨43.1%，目标回...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.08%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    7.35
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.42
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">601890</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="亚星锚链">
+                                
+                                    
+                                    
+                                        亚星锚链
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    10.78
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">40602.5</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    70
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell">较高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">7.26%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开">
+                                
+                                    平开
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(10.65)+1.3%, MA20(10.45)+3.1%">
+                                
+                                    MA5(10.65)+1.3%, MA2...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开，较12日最低价涨7.3%，未达开空条件(需≥20%)">
+                                
+                                    平开，较12日最低价涨7.3%，未达开空...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.03%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    6.76
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.3
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">600452</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="涪陵电力">
+                                
+                                    
+                                    
+                                        涪陵电力
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    10.67
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">27229.4</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    46
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-low">低</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">低</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">18.03%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开">
+                                
+                                    平开
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(9.86)+8.3%, MA20(9.42)+13.3%">
+                                
+                                    MA5(9.86)+8.3%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开，较12日最低价涨18.0%，未达开空条件(需≥20%)">
+                                
+                                    平开，较12日最低价涨18.0%，未达开...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.06%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    4.14
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.11
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">000501</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="武商集团">
+                                
+                                    
+                                    
+                                        武商集团
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    11.61
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">27214.6</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    64
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-medium">中</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-yes">开空</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">27.58%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+9.3%">
+                                
+                                    跳空高开+9.3%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(9.85)+17.9%, MA20(9.76)+19.0%">
+                                
+                                    MA5(9.85)+17.9%, MA2...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+9.3%，较12日最低价涨27.6%，目标回撤至MA20(≥15.9%)">
+                                
+                                    跳空高开+9.3%，较12日最低价涨27...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.02%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    7.58
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.15
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">600481</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="双良节能">
+                                
+                                    
+                                    
+                                        双良节能
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    5.9
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">16955.2</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    51
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-medium">中</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">6.88%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开">
+                                
+                                    平开
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(6.02)-2.0%, MA20(5.90)+0.0%">
+                                
+                                    MA5(6.02)-2.0%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开，较12日最低价涨6.9%，未达开空条件(需≥20%)">
+                                
+                                    平开，较12日最低价涨6.9%，未达开空...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.01%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    4.59
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.52
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">000010</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="美丽生态">
+                                
+                                    
+                                    
+                                        美丽生态
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    4.34
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">16758.5</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    58
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-medium">中</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-yes">开空</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">29.55%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+2.8%">
+                                
+                                    小幅高开+2.8%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(4.03)+7.8%, MA20(3.66)+18.4%">
+                                
+                                    MA5(4.03)+7.8%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+2.8%，较12日最低价涨29.6%，目标回撤≥3%或至MA5">
+                                
+                                    小幅高开+2.8%，较12日最低价涨29...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.04%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    7.05
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.25
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">600537</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="亿晶光电">
+                                
+                                    
+                                    
+                                        亿晶光电
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    3.65
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">16199.0</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    78
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell">较高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">较高</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">0.83%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开">
+                                
+                                    平开
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(3.71)-1.7%, MA20(3.90)-6.4%">
+                                
+                                    MA5(3.71)-1.7%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开，较12日最低价涨0.8%，未达开空条件(需≥20%)">
+                                
+                                    平开，较12日最低价涨0.8%，未达开空...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-negative">-0.02%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    8.64
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.89
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">945</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">002542</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="中化岩土">
+                                
+                                    
+                                    
+                                        中化岩土
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    3.83
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">10748.8</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    69
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell">较高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">较高</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">1.06%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开">
+                                
+                                    平开
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(3.86)-0.8%, MA20(4.16)-7.8%">
+                                
+                                    MA5(3.86)-0.8%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开，较12日最低价涨1.1%，未达开空条件(需≥20%)">
+                                
+                                    平开，较12日最低价涨1.1%，未达开空...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-negative">-0.03%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    6.57
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    2.31
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">1000</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">600744</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="华银电力">
+                                
+                                    
+                                    
+                                        华银电力
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    7.45
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell top1-amount">89391.9</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    100
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell">极高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">较高</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    2
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">10.53%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+6.0%">
+                                
+                                    跳空高开+6.0%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(6.89)+8.1%, MA20(7.15)+4.2%">
+                                
+                                    MA5(6.89)+8.1%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+6.0%，较12日最低价涨10.5%，未达开空条件(需≥20%)">
+                                
+                                    跳空高开+6.0%，较12日最低价涨10...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-negative">-0.02%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    16.47
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.71
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">1000</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">300762</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="上海瀚讯">
+                                
+                                    
+                                    
+                                        上海瀚讯
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    26.68
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell top2-amount">67684.0</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    96
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell">极高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">较高</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">21.16%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+1.0%">
+                                
+                                    小幅高开+1.0%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(25.15)+6.1%, MA20(23.95)+11.4%">
+                                
+                                    MA5(25.15)+6.1%, MA2...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="小幅高开+1.0%，较12日最低价涨21.2%，目标回撤≥3%或至MA5">
+                                
+                                    小幅高开+1.0%，较12日最低价涨21...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.14%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    7.06
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    2.26
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">1000</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">600930</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="华电新能">
+                                
+                                    
+                                    
+                                        华电新能
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    6.37
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell top3-amount">58509.3</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    100
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell">极高</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">高</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">0.00%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开">
+                                
+                                    平开
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(6.47)-1.5%, MA20(6.84)-6.9%">
+                                
+                                    MA5(6.47)-1.5%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="平开，较12日最低价涨0.0%，未达开空条件(需≥20%)">
+                                
+                                    平开，较12日最低价涨0.0%，未达开空...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-negative">-0.04%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    10.82
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    3.77
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">1000</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">002342</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="巨力索具">
+                                
+                                    
+                                    
+                                        巨力索具
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    7.66
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">22117.2</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    43
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-low">低</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">低</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    2
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">13.31%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+5.7%">
+                                
+                                    跳空高开+5.7%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(7.19)+6.6%, MA20(7.27)+5.4%">
+                                
+                                    MA5(7.19)+6.6%, MA20...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+5.7%，较12日最低价涨13.3%，未达开空条件(需≥20%)">
+                                
+                                    跳空高开+5.7%，较12日最低价涨13...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="strength-cell"><span class="empty-cell">-</span></td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    4.01
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.1
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">1000</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">300053</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="航宇微">
+                                
+                                    
+                                    
+                                        航宇微
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    14.26
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">21832.4</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    62
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-medium">中</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">11.49%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空低开-1.2%">
+                                
+                                    跳空低开-1.2%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(13.89)+2.6%, MA20(13.49)+5.7%">
+                                
+                                    MA5(13.89)+2.6%, MA2...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空低开-1.2%，较12日最低价涨11.5%，未达开空条件(需≥20%)">
+                                
+                                    跳空低开-1.2%，较12日最低价涨11...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.05%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    5.46
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.75
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">1000</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">000010</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="美丽生态">
+                                
+                                    
+                                    
+                                        美丽生态
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    4.43
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell">15197.1</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    49
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                <td class="trust-level-cell trust-low">低</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">中</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    2
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-yes">开空</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">32.24%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+5.0%">
+                                
+                                    跳空高开+5.0%
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="MA5(4.03)+10.0%, MA20(3.66)+20.9%">
+                                
+                                    MA5(4.03)+10.0%, MA2...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="跳空高开+5.0%，较12日最低价涨32.2%，目标回撤至MA20(≥17.3%)">
+                                
+                                    跳空高开+5.0%，较12日最低价涨32...
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-positive">0.04%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    6.1
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.08
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
+                </tbody>
+            </table>
+        </div>
+
+        
+        <div class="stats-container">
+            <h3 style="color: #2e7d32;">📊 数据统计</h3>
+            <div class="stats-grid">
+                
+                <div class="stat-card">
+                    <div class="stat-label">总记录数</div>
+                    <div class="stat-value">28</div>
+                </div>
+                
+                
+                <div class="stat-card">
+                    <div class="stat-label">平均成交额</div>
+                    <div class="stat-value">58677.35万</div>
+                </div>
+                
+                
+                <div class="stat-card">
+                    <div class="stat-label">高可信度信号</div>
+                    <div class="stat-value">6</div>
+                </div>
+                
+                
+                
+                <div class="stat-card">
+                    <div class="stat-label">开空信号数</div>
+                    <div class="stat-value">10</div>
+                </div>
+                
+                
+                <div class="stat-card">
+                    <div class="stat-label">平均涨幅</div>
+                    <div class="stat-value">19.97%</div>
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
