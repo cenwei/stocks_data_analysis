@@ -197,13 +197,15 @@ th.amount-header {
     color: #f57c00;
     font-weight: bold;
     position: relative;
+    padding-left: 25px;
 }
 
 .top1-amount::before {
     content: "🥇";
     position: absolute;
-    left: 3px;
-    font-size: 14px;
+    left: 5px;
+    top: 2px;
+    font-size: 12px;
 }
 
 .top2-amount {
@@ -211,13 +213,15 @@ th.amount-header {
     color: #424242;
     font-weight: bold;
     position: relative;
+    padding-left: 25px;
 }
 
 .top2-amount::before {
     content: "🥈";
     position: absolute;
-    left: 3px;
-    font-size: 14px;
+    left: 5px;
+    top: 2px;
+    font-size: 12px;
 }
 
 .top3-amount {
@@ -225,13 +229,15 @@ th.amount-header {
     color: #bf360c;
     font-weight: bold;
     position: relative;
+    padding-left: 25px;
 }
 
 .top3-amount::before {
     content: "🥉";
     position: absolute;
-    left: 3px;
-    font-size: 14px;
+    left: 5px;
+    top: 2px;
+    font-size: 12px;
 }
 
 /* 星级列 */
@@ -264,7 +270,7 @@ th.amount-header {
     background: rgba(198, 40, 40, 0.08);
 }
 
-/* 可信等级列 */
+/* 可信等级列 - 支持5个等级 */
 .trust-level-cell {
     text-align: center;
     font-weight: 500;
@@ -272,14 +278,25 @@ th.amount-header {
     border-radius: 4px;
 }
 
+.trust-very-high {
+    background: #1b5e20;
+    color: white;
+    font-weight: bold;
+}
+
 .trust-high {
-    background: #c8e6c9;
-    color: #1b5e20;
+    background: #4caf50;
+    color: white;
+}
+
+.trust-medium-high {
+    background: #8bc34a;
+    color: white;
 }
 
 .trust-medium {
-    background: #fff9c4;
-    color: #f57c00;
+    background: #ffeb3b;
+    color: #333;
 }
 
 .trust-low {
@@ -429,12 +446,12 @@ th.amount-header {
             <h1>股票数据监控</h1>
             <div class="header-info">
                 <div>A股 | 2025年08月08日</div>
-                <div>生成时间: 10:46:46</div>
-                <div>数据条数: 33</div>
+                <div>生成时间: 12:09:20</div>
+                <div>数据条数: 34</div>
             </div>
         </div>
 
-        <div class="table-wrapper">
+        <div class="table-wrapper" id="tableWrapper">
             <table>
                 <thead>
                     <tr>
@@ -610,7 +627,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">极高</td>
+                            
+                                <td class="trust-level-cell trust-very-high">极高</td>
                             
 
                         
@@ -823,7 +841,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    86
+                                    87
                                 
                             </td>
 
@@ -834,6 +852,7 @@ th.amount-header {
 
                         
                         
+                            
                             
                                 <td class="trust-level-cell trust-high">高</td>
                             
@@ -1051,7 +1070,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    80
+                                    81
                                 
                             </td>
 
@@ -1062,6 +1081,7 @@ th.amount-header {
 
                         
                         
+                            
                             
                                 <td class="trust-level-cell trust-high">高</td>
                             
@@ -1279,7 +1299,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    86
+                                    87
                                 
                             </td>
 
@@ -1290,6 +1310,7 @@ th.amount-header {
 
                         
                         
+                            
                             
                                 <td class="trust-level-cell trust-high">高</td>
                             
@@ -1519,7 +1540,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">极高</td>
+                            
+                                <td class="trust-level-cell trust-very-high">极高</td>
                             
 
                         
@@ -1735,7 +1757,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    83
+                                    84
                                 
                             </td>
 
@@ -1746,6 +1768,7 @@ th.amount-header {
 
                         
                         
+                            
                             
                                 <td class="trust-level-cell trust-high">高</td>
                             
@@ -1975,7 +1998,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">极高</td>
+                            
+                                <td class="trust-level-cell trust-very-high">极高</td>
                             
 
                         
@@ -2203,7 +2227,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">较高</td>
+                            
+                                <td class="trust-level-cell trust-medium-high">较高</td>
                             
 
                         
@@ -2431,7 +2456,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">极高</td>
+                            
+                                <td class="trust-level-cell trust-very-high">极高</td>
                             
 
                         
@@ -2647,7 +2673,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    82
+                                    83
                                 
                             </td>
 
@@ -2658,6 +2684,7 @@ th.amount-header {
 
                         
                         
+                            
                             
                                 <td class="trust-level-cell trust-high">高</td>
                             
@@ -2887,7 +2914,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">极高</td>
+                            
+                                <td class="trust-level-cell trust-very-high">极高</td>
                             
 
                         
@@ -3100,7 +3128,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    84
+                                    86
                                 
                             </td>
 
@@ -3111,6 +3139,7 @@ th.amount-header {
 
                         
                         
+                            
                             
                                 <td class="trust-level-cell trust-high">高</td>
                             
@@ -3328,7 +3357,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    65
+                                    66
                                 
                             </td>
 
@@ -3340,7 +3369,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">较高</td>
+                            
+                                <td class="trust-level-cell trust-medium-high">较高</td>
                             
 
                         
@@ -3556,7 +3586,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    88
+                                    89
                                 
                             </td>
 
@@ -3567,6 +3597,7 @@ th.amount-header {
 
                         
                         
+                            
                             
                                 <td class="trust-level-cell trust-high">高</td>
                             
@@ -3784,7 +3815,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    80
+                                    81
                                 
                             </td>
 
@@ -3795,6 +3826,7 @@ th.amount-header {
 
                         
                         
+                            
                             
                                 <td class="trust-level-cell trust-high">高</td>
                             
@@ -4012,7 +4044,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    73
+                                    75
                                 
                             </td>
 
@@ -4024,7 +4056,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">较高</td>
+                            
+                                <td class="trust-level-cell trust-medium-high">较高</td>
                             
 
                         
@@ -4240,7 +4273,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    49
+                                    50
                                 
                             </td>
 
@@ -4252,7 +4285,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell trust-low">低</td>
+                            
+                                <td class="trust-level-cell trust-medium">中</td>
                             
 
                         
@@ -4468,7 +4502,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    67
+                                    68
                                 
                             </td>
 
@@ -4480,7 +4514,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">较高</td>
+                            
+                                <td class="trust-level-cell trust-medium-high">较高</td>
                             
 
                         
@@ -4696,7 +4731,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    54
+                                    55
                                 
                             </td>
 
@@ -4707,6 +4742,7 @@ th.amount-header {
 
                         
                         
+                            
                             
                                 <td class="trust-level-cell trust-medium">中</td>
                             
@@ -4924,7 +4960,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    61
+                                    62
                                 
                             </td>
 
@@ -4935,6 +4971,7 @@ th.amount-header {
 
                         
                         
+                            
                             
                                 <td class="trust-level-cell trust-medium">中</td>
                             
@@ -5164,7 +5201,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">较高</td>
+                            
+                                <td class="trust-level-cell trust-medium-high">较高</td>
                             
 
                         
@@ -5392,7 +5430,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">较高</td>
+                            
+                                <td class="trust-level-cell trust-medium-high">较高</td>
                             
 
                         
@@ -5620,7 +5659,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">极高</td>
+                            
+                                <td class="trust-level-cell trust-very-high">极高</td>
                             
 
                         
@@ -5836,7 +5876,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    96
+                                    97
                                 
                             </td>
 
@@ -5848,7 +5888,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">极高</td>
+                            
+                                <td class="trust-level-cell trust-very-high">极高</td>
                             
 
                         
@@ -6076,7 +6117,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">极高</td>
+                            
+                                <td class="trust-level-cell trust-very-high">极高</td>
                             
 
                         
@@ -6292,7 +6334,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    45
+                                    46
                                 
                             </td>
 
@@ -6303,6 +6345,7 @@ th.amount-header {
 
                         
                         
+                            
                             
                                 <td class="trust-level-cell trust-low">低</td>
                             
@@ -6517,7 +6560,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    65
+                                    66
                                 
                             </td>
 
@@ -6529,7 +6572,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">较高</td>
+                            
+                                <td class="trust-level-cell trust-medium-high">较高</td>
                             
 
                         
@@ -6745,7 +6789,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    51
+                                    52
                                 
                             </td>
 
@@ -6756,6 +6800,7 @@ th.amount-header {
 
                         
                         
+                            
                             
                                 <td class="trust-level-cell trust-medium">中</td>
                             
@@ -6985,7 +7030,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">极高</td>
+                            
+                                <td class="trust-level-cell trust-very-high">极高</td>
                             
 
                         
@@ -7201,7 +7247,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    66
+                                    67
                                 
                             </td>
 
@@ -7213,7 +7259,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">较高</td>
+                            
+                                <td class="trust-level-cell trust-medium-high">较高</td>
                             
 
                         
@@ -7429,7 +7476,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    79
+                                    81
                                 
                             </td>
 
@@ -7441,7 +7488,8 @@ th.amount-header {
                         
                         
                             
-                                <td class="trust-level-cell">较高</td>
+                            
+                                <td class="trust-level-cell trust-high">高</td>
                             
 
                         
@@ -7657,7 +7705,7 @@ th.amount-header {
                         
                             <td class="signal-score-cell">
                                 
-                                    50
+                                    51
                                 
                             </td>
 
@@ -7668,6 +7716,7 @@ th.amount-header {
 
                         
                         
+                            
                             
                                 <td class="trust-level-cell trust-medium">中</td>
                             
@@ -7897,6 +7946,7 @@ th.amount-header {
                         
                         
                             
+                            
                                 <td class="trust-level-cell trust-low">低</td>
                             
 
@@ -8032,6 +8082,235 @@ th.amount-header {
                     
                     </tr>
                 
+                    <tr>
+                    
+                        
+
+                        
+                        
+                            <td class="time-cell">1115</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="code-cell">002542</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="name-cell" title="中化岩土">
+                                
+                                    
+                                    
+                                        中化岩土
+                                    
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="price-cell">
+                                
+                                    3.91
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                            
+                                <td class="amount-cell top1-amount">5434.8</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="star-cell">
+                                
+                                    <span class="empty-cell">-</span>
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="signal-score-cell">
+                                
+                                    34
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="trust-level-cell trust-low">低</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="volume-trust-cell">低</td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="count-cell">
+                                
+                                    3
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                            
+                                <td class="short-signal-no">-</td>
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="change-neutral">3.17%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="nan">
+                                
+                                    nan
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="nan">
+                                
+                                    nan
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="analysis-cell" title="非开空时间窗口(仅9:45-10:00)">
+                                
+                                    非开空时间窗口(仅9:45-10:00)
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            
+                                
+                                
+                                    <td class="strength-cell strength-negative">-0.03%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    3.29
+                                
+                            </td>
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="strength-cell">
+                                
+                                    1.16
+                                
+                            </td>
+
+                        
+                        
+                    
+                    </tr>
+                
                 </tbody>
             </table>
         </div>
@@ -8043,19 +8322,19 @@ th.amount-header {
                 
                 <div class="stat-card">
                     <div class="stat-label">总记录数</div>
-                    <div class="stat-value">33</div>
+                    <div class="stat-value">34</div>
                 </div>
                 
                 
                 <div class="stat-card">
                     <div class="stat-label">平均成交额</div>
-                    <div class="stat-value">55523.01万</div>
+                    <div class="stat-value">54049.83万</div>
                 </div>
                 
                 
                 <div class="stat-card">
                     <div class="stat-label">高可信度信号</div>
-                    <div class="stat-value">8</div>
+                    <div class="stat-value">9</div>
                 </div>
                 
                 
@@ -8068,12 +8347,28 @@ th.amount-header {
                 
                 <div class="stat-card">
                     <div class="stat-label">平均涨幅</div>
-                    <div class="stat-value">18.37%</div>
+                    <div class="stat-value">17.92%</div>
                 </div>
                 
             </div>
         </div>
         
     </div>
+
+    <script>
+        // 监听滚动事件，添加阴影效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableWrapper = document.getElementById('tableWrapper');
+            if (tableWrapper) {
+                tableWrapper.addEventListener('scroll', function() {
+                    if (this.scrollTop > 0) {
+                        this.classList.add('scrolled');
+                    } else {
+                        this.classList.remove('scrolled');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
