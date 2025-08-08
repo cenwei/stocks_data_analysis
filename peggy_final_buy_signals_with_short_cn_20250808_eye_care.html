@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
 /* 护眼风格CSS - table_styles_eye_care.css */
-/* 专为股票监控表格优化的护眼配色方案 */
+/* 专为股票监控表格优化的护眼配色方案 - 红色主题 */
 
 * {
     margin: 0;
@@ -101,7 +101,14 @@ th.star-header {
 }
 
 th.signal-header {
-    background: linear-gradient(180deg, #a5d6a7 0%, #c8e6c9 100%);
+    background: linear-gradient(180deg, #ffcdd2 0%, #ffebee 100%);
+    color: #b71c1c;
+}
+
+th.tech-header {
+    background: linear-gradient(180deg, #ffcdd2 0%, #ffe0e6 100%);
+    color: #b71c1c;
+    font-weight: 600;
 }
 
 /* 表格行 */
@@ -248,29 +255,41 @@ th.amount-header {
     min-width: 80px;
 }
 
-/* 信号可信分列 */
+/* 信号可信分列 - 浅红色分段渐变 */
 .signal-score-cell {
     text-align: center;
     font-weight: 600;
     font-family: 'Consolas', monospace;
+    padding: 5px 8px;
+    border-radius: 4px;
 }
 
-.signal-high {
-    color: #2e7d32;
-    background: rgba(46, 125, 50, 0.08);
-}
-
-.signal-medium {
-    color: #f57c00;
-    background: rgba(245, 124, 0, 0.08);
-}
-
-.signal-low {
+/* 100-90分 - 最深的浅红色 */
+.signal-90-100 {
+    background: rgba(239, 83, 80, 0.25);
     color: #c62828;
-    background: rgba(198, 40, 40, 0.08);
+    font-weight: bold;
 }
 
-/* 可信等级列 - 支持5个等级 */
+/* 90-80分 - 中等浅红色 */
+.signal-80-90 {
+    background: rgba(239, 83, 80, 0.18);
+    color: #d32f2f;
+}
+
+/* 80-70分 - 更浅的红色 */
+.signal-70-80 {
+    background: rgba(239, 83, 80, 0.12);
+    color: #e53935;
+}
+
+/* 70分以下 - 最浅的红色 */
+.signal-below-70 {
+    background: rgba(239, 83, 80, 0.06);
+    color: #666666;
+}
+
+/* 可信等级列 - 使用浅红色渐变 */
 .trust-level-cell {
     text-align: center;
     font-weight: 500;
@@ -278,30 +297,31 @@ th.amount-header {
     border-radius: 4px;
 }
 
+/* 浅红色渐变 - 从深到浅 */
 .trust-very-high {
-    background: #1b5e20;
-    color: white;
+    background: rgba(239, 83, 80, 0.35);
+    color: #b71c1c;
     font-weight: bold;
 }
 
 .trust-high {
-    background: #4caf50;
-    color: white;
+    background: rgba(239, 83, 80, 0.28);
+    color: #c62828;
 }
 
 .trust-medium-high {
-    background: #8bc34a;
-    color: white;
+    background: rgba(239, 83, 80, 0.20);
+    color: #d32f2f;
 }
 
 .trust-medium {
-    background: #ffeb3b;
-    color: #333;
+    background: rgba(239, 83, 80, 0.13);
+    color: #e53935;
 }
 
 .trust-low {
-    background: #ffcdd2;
-    color: #c62828;
+    background: rgba(239, 83, 80, 0.08);
+    color: #666666;
 }
 
 /* 量能可信度列 */
@@ -337,6 +357,160 @@ th.amount-header {
     color: #757575;
 }
 
+/* 开空信号列 */
+.short-signal-yes {
+    color: #ff5722;
+    font-weight: bold;
+    text-align: center;
+    background: rgba(255, 87, 34, 0.1);
+    border-radius: 3px;
+}
+
+.short-signal-no {
+    color: #9e9e9e;
+    text-align: center;
+}
+
+/* 涨幅列 */
+.change-positive {
+    color: #d32f2f;
+    font-weight: 500;
+}
+
+.change-negative {
+    color: #388e3c;
+    font-weight: 500;
+}
+
+.change-neutral {
+    color: #757575;
+}
+
+/* 分析类列 - 优化版 */
+.analysis-cell {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    color: #555;
+    cursor: help;
+    position: relative;
+    padding: 6px 8px;
+    transition: background-color 0.2s;
+}
+
+.analysis-cell:hover {
+    background-color: rgba(239, 83, 80, 0.05);
+}
+
+/* 技术位分析特殊样式 */
+.tech-analysis-cell {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+    color: #444;
+    cursor: help;
+    position: relative;
+    padding: 6px 8px;
+    background: linear-gradient(90deg, rgba(239, 83, 80, 0.02) 0%, transparent 100%);
+    border-left: 2px solid transparent;
+    transition: all 0.2s;
+}
+
+.tech-analysis-cell:hover {
+    background: rgba(239, 83, 80, 0.08);
+    border-left-color: #ef5350;
+    color: #b71c1c;
+}
+
+/* 跳空分析样式优化 */
+.jump-analysis-cell {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.jump-high {
+    background: rgba(239, 83, 80, 0.15);
+    color: #c62828;
+}
+
+.jump-low {
+    background: rgba(76, 175, 80, 0.15);
+    color: #2e7d32;
+}
+
+.jump-neutral {
+    background: rgba(158, 158, 158, 0.1);
+    color: #616161;
+}
+
+/* 悬浮提示框 */
+.tooltip {
+    position: absolute;
+    background: rgba(33, 33, 33, 0.95);
+    color: white;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: normal;
+    max-width: 350px;
+    min-width: 200px;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tooltip.show {
+    opacity: 1;
+}
+
+/* 提示框箭头 - 居中显示 */
+.tooltip::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    margin-left: -6px;  /* 箭头宽度的一半，使其完全居中 */
+    width: 12px;
+    height: 12px;
+    background: rgba(33, 33, 33, 0.95);
+    transform: rotate(45deg);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 提示框在上方时的箭头 */
+.tooltip.tooltip-top::before {
+    top: auto;
+    bottom: -6px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: none;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* MA数据高亮 */
+.ma-highlight {
+    color: #d32f2f;
+    font-weight: 600;
+}
+
+/* 百分比高亮 */
+.percent-highlight {
+    color: #f44336;
+    font-weight: 500;
+}
+
 /* 空值 */
 .empty-cell {
     color: #bdbdbd;
@@ -346,9 +520,9 @@ th.amount-header {
 
 /* 统计区域 */
 .stats-container {
-    background: linear-gradient(135deg, #e8f5e9 0%, #f3e5f5 100%);
+    background: linear-gradient(135deg, #ffebee 0%, #fce4ec 100%);
     padding: 20px;
-    border-top: 2px solid #81c784;
+    border-top: 2px solid #ef5350;
 }
 
 .stats-grid {
@@ -362,7 +536,7 @@ th.amount-header {
     background: white;
     padding: 12px;
     border-radius: 8px;
-    border-left: 4px solid #81c784;
+    border-left: 4px solid #ef5350;
 }
 
 .stat-label {
@@ -372,7 +546,7 @@ th.amount-header {
 }
 
 .stat-value {
-    color: #2e7d32;
+    color: #c62828;
     font-size: 20px;
     font-weight: bold;
 }
@@ -384,17 +558,17 @@ th.amount-header {
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f8e9;
+    background: #ffebee;
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #81c784;
+    background: #ef9a9a;
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #66bb6a;
+    background: #ef5350;
 }
 
 /* 响应式设计 */
@@ -446,7 +620,7 @@ th.amount-header {
             <h1>股票数据监控</h1>
             <div class="header-info">
                 <div>A股 | 2025年08月08日</div>
-                <div>生成时间: 14:03:06</div>
+                <div>生成时间: 15:42:44</div>
                 <div>数据条数: 37</div>
             </div>
         </div>
@@ -511,7 +685,7 @@ th.amount-header {
                         
                     
                         
-                            <th>技术位分析</th>
+                            <th class="tech-header">技术位分析</th>
                         
                     
                         
@@ -613,11 +787,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    100
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-90-100">100</td>
+                                
+                            
 
                         
                         
@@ -662,7 +837,7 @@ th.amount-header {
                         
                             
                             
-                                <td class="short-signal-no">-</td>
+                                <td class="short-signal-yes">开空</td>
                             
 
                         
@@ -686,9 +861,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="跳空高开+6.3%">
+                            
                                 
-                                    跳空高开+6.3%
+                                
+                                    <td class="jump-analysis-cell jump-high">跳空高开+6.3%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(12.05)+16.1%, MA20(12.13)+15.5%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(12.05)+16.1%, MA20(12...
+                                    
                                 
                             </td>
 
@@ -699,20 +892,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(12.05)+16.1%, MA20(12.13)+15.5%">
-                                
-                                    MA5(12.05)+16.1%, MA...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="跳空高开+6.3%，较12日最低价涨24.1%，目标回撤至MA20(≥13.4%)">
+                            <td class="analysis-cell" data-tooltip="跳空高开+6.3%，较12日最低价涨24.1%，目标回撤至MA20(≥13.4%)">
                                 
                                     跳空高开+6.3%，较12日最低价涨24...
                                 
@@ -839,11 +1019,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    88
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-80-90">88</td>
+                                
+                            
 
                         
                         
@@ -912,9 +1093,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="小幅高开+1.0%">
+                            
                                 
-                                    小幅高开+1.0%
+                                
+                                    <td class="jump-analysis-cell jump-high">小幅高开+1.0%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(17.01)+17.1%, MA20(16.18)+23.0%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(17.01)+17.1%, MA20(16...
+                                    
                                 
                             </td>
 
@@ -925,20 +1124,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(17.01)+17.1%, MA20(16.18)+23.0%">
-                                
-                                    MA5(17.01)+17.1%, MA...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="小幅高开+1.0%，较12日最低价涨44.7%，目标回撤≥5%或至布林带中轨">
+                            <td class="analysis-cell" data-tooltip="小幅高开+1.0%，较12日最低价涨44.7%，目标回撤≥5%或至布林带中轨">
                                 
                                     小幅高开+1.0%，较12日最低价涨44...
                                 
@@ -1068,11 +1254,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    81
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-80-90">81</td>
+                                
+                            
 
                         
                         
@@ -1141,9 +1328,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="平开">
+                            
                                 
-                                    平开
+                                
+                                    <td class="jump-analysis-cell jump-neutral">平开</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(14.46)+6.6%, MA20(13.47)+14.5%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(14.46)+6.6%, MA20(13....
+                                    
                                 
                             </td>
 
@@ -1154,20 +1359,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(14.46)+6.6%, MA20(13.47)+14.5%">
-                                
-                                    MA5(14.46)+6.6%, MA2...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="平开，较12日最低价涨23.0%，目标回撤≥3%或至MA5">
+                            <td class="analysis-cell" data-tooltip="平开，较12日最低价涨23.0%，目标回撤≥3%或至MA5">
                                 
                                     平开，较12日最低价涨23.0%，目标回...
                                 
@@ -1297,11 +1489,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    86
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-80-90">86</td>
+                                
+                            
 
                         
                         
@@ -1370,9 +1563,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="跳空高开+3.7%">
+                            
                                 
-                                    跳空高开+3.7%
+                                
+                                    <td class="jump-analysis-cell jump-high">跳空高开+3.7%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(2.19)+16.0%, MA20(2.03)+25.4%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(2.19)+16.0%, MA20(2.0...
+                                    
                                 
                             </td>
 
@@ -1383,20 +1594,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(2.19)+16.0%, MA20(2.03)+25.4%">
-                                
-                                    MA5(2.19)+16.0%, MA2...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="跳空高开+3.7%，较12日最低价涨39.6%，目标回撤至MA20(≥20.2%)">
+                            <td class="analysis-cell" data-tooltip="跳空高开+3.7%，较12日最低价涨39.6%，目标回撤至MA20(≥20.2%)">
                                 
                                     跳空高开+3.7%，较12日最低价涨39...
                                 
@@ -1526,11 +1724,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    100
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-90-100">100</td>
+                                
+                            
 
                         
                         
@@ -1599,9 +1798,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="跳空高开+4.2%">
+                            
                                 
-                                    跳空高开+4.2%
+                                
+                                    <td class="jump-analysis-cell jump-high">跳空高开+4.2%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(4.45)+12.3%, MA20(4.17)+20.0%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(4.45)+12.3%, MA20(4.1...
+                                    
                                 
                             </td>
 
@@ -1612,20 +1829,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(4.45)+12.3%, MA20(4.17)+20.0%">
-                                
-                                    MA5(4.45)+12.3%, MA2...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="跳空高开+4.2%，较12日最低价涨30.5%，目标回撤至MA20(≥16.7%)">
+                            <td class="analysis-cell" data-tooltip="跳空高开+4.2%，较12日最低价涨30.5%，目标回撤至MA20(≥16.7%)">
                                 
                                     跳空高开+4.2%，较12日最低价涨30...
                                 
@@ -1755,11 +1959,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    84
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-80-90">84</td>
+                                
+                            
 
                         
                         
@@ -1828,9 +2033,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="小幅高开+1.0%">
+                            
                                 
-                                    小幅高开+1.0%
+                                
+                                    <td class="jump-analysis-cell jump-high">小幅高开+1.0%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(16.05)+12.3%, MA20(14.89)+21.1%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(16.05)+12.3%, MA20(14...
+                                    
                                 
                             </td>
 
@@ -1841,20 +2064,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(16.05)+12.3%, MA20(14.89)+21.1%">
-                                
-                                    MA5(16.05)+12.3%, MA...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="小幅高开+1.0%，较12日最低价涨30.1%，目标回撤≥5%或至布林带中轨">
+                            <td class="analysis-cell" data-tooltip="小幅高开+1.0%，较12日最低价涨30.1%，目标回撤≥5%或至布林带中轨">
                                 
                                     小幅高开+1.0%，较12日最低价涨30...
                                 
@@ -1984,11 +2194,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    100
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-90-100">100</td>
+                                
+                            
 
                         
                         
@@ -2033,7 +2244,7 @@ th.amount-header {
                         
                             
                             
-                                <td class="short-signal-no">-</td>
+                                <td class="short-signal-yes">开空</td>
                             
 
                         
@@ -2057,9 +2268,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="小幅高开+2.5%">
+                            
                                 
-                                    小幅高开+2.5%
+                                
+                                    <td class="jump-analysis-cell jump-high">小幅高开+2.5%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(11.31)+7.8%, MA20(10.87)+12.2%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(11.31)+7.8%, MA20(10....
+                                    
                                 
                             </td>
 
@@ -2070,20 +2299,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(11.31)+7.8%, MA20(10.87)+12.2%">
-                                
-                                    MA5(11.31)+7.8%, MA2...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="小幅高开+2.5%，较12日最低价涨17.5%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="小幅高开+2.5%，较12日最低价涨17.5%，未达开空条件(需≥20%)">
                                 
                                     小幅高开+2.5%，较12日最低价涨17...
                                 
@@ -2213,11 +2429,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    66
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">66</td>
+                                
+                            
 
                         
                         
@@ -2262,7 +2479,7 @@ th.amount-header {
                         
                             
                             
-                                <td class="short-signal-yes">开空</td>
+                                <td class="short-signal-no">-</td>
                             
 
                         
@@ -2286,9 +2503,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="平开">
+                            
                                 
-                                    平开
+                                
+                                    <td class="jump-analysis-cell jump-neutral">平开</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(12.15)+10.3%, MA20(11.43)+17.3%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(12.15)+10.3%, MA20(11...
+                                    
                                 
                             </td>
 
@@ -2299,20 +2534,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(12.15)+10.3%, MA20(11.43)+17.3%">
-                                
-                                    MA5(12.15)+10.3%, MA...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="平开，较12日最低价涨28.1%，目标回撤≥3%或至MA5">
+                            <td class="analysis-cell" data-tooltip="平开，较12日最低价涨28.1%，目标回撤≥3%或至MA5">
                                 
                                     平开，较12日最低价涨28.1%，目标回...
                                 
@@ -2442,11 +2664,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    100
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-90-100">100</td>
+                                
+                            
 
                         
                         
@@ -2491,7 +2714,7 @@ th.amount-header {
                         
                             
                             
-                                <td class="short-signal-no">-</td>
+                                <td class="short-signal-yes">开空</td>
                             
 
                         
@@ -2515,9 +2738,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="小幅高开+1.4%">
+                            
                                 
-                                    小幅高开+1.4%
+                                
+                                    <td class="jump-analysis-cell jump-high">小幅高开+1.4%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(7.08)-0.1%, MA20(6.82)+3.7%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(7.08)-0.1%, MA20(6.82...
+                                    
                                 
                             </td>
 
@@ -2528,20 +2769,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(7.08)-0.1%, MA20(6.82)+3.7%">
-                                
-                                    MA5(7.08)-0.1%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="小幅高开+1.4%，较12日最低价涨9.8%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="小幅高开+1.4%，较12日最低价涨9.8%，未达开空条件(需≥20%)">
                                 
                                     小幅高开+1.4%，较12日最低价涨9....
                                 
@@ -2671,11 +2899,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    83
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-80-90">83</td>
+                                
+                            
 
                         
                         
@@ -2744,9 +2973,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="平开">
+                            
                                 
-                                    平开
+                                
+                                    <td class="jump-analysis-cell jump-neutral">平开</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(6.19)-1.3%, MA20(5.94)+2.9%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(6.19)-1.3%, MA20(5.94...
+                                    
                                 
                             </td>
 
@@ -2757,20 +3004,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(6.19)-1.3%, MA20(5.94)+2.9%">
-                                
-                                    MA5(6.19)-1.3%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="平开，较12日最低价涨9.9%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="平开，较12日最低价涨9.9%，未达开空条件(需≥20%)">
                                 
                                     平开，较12日最低价涨9.9%，未达开空...
                                 
@@ -2900,11 +3134,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    100
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-90-100">100</td>
+                                
+                            
 
                         
                         
@@ -2973,9 +3208,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="平开">
+                            
                                 
-                                    平开
+                                
+                                    <td class="jump-analysis-cell jump-neutral">平开</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(7.19)+0.2%, MA20(7.27)-1.0%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(7.19)+0.2%, MA20(7.27...
+                                    
                                 
                             </td>
 
@@ -2986,20 +3239,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(7.19)+0.2%, MA20(7.27)-1.0%">
-                                
-                                    MA5(7.19)+0.2%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="平开，较12日最低价涨6.5%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="平开，较12日最低价涨6.5%，未达开空条件(需≥20%)">
                                 
                                     平开，较12日最低价涨6.5%，未达开空...
                                 
@@ -3126,11 +3366,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    86
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-80-90">86</td>
+                                
+                            
 
                         
                         
@@ -3199,9 +3440,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="跳空低开-1.7%">
+                            
                                 
-                                    跳空低开-1.7%
+                                
+                                    <td class="jump-analysis-cell jump-low">跳空低开-1.7%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(6.89)+0.2%, MA20(7.15)-3.3%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(6.89)+0.2%, MA20(7.15...
+                                    
                                 
                             </td>
 
@@ -3212,20 +3471,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(6.89)+0.2%, MA20(7.15)-3.3%">
-                                
-                                    MA5(6.89)+0.2%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="跳空低开-1.7%，较12日最低价涨2.5%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="跳空低开-1.7%，较12日最低价涨2.5%，未达开空条件(需≥20%)">
                                 
                                     跳空低开-1.7%，较12日最低价涨2....
                                 
@@ -3355,11 +3601,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    67
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">67</td>
+                                
+                            
 
                         
                         
@@ -3428,9 +3675,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="小幅高开+1.8%">
+                            
                                 
-                                    小幅高开+1.8%
+                                
+                                    <td class="jump-analysis-cell jump-high">小幅高开+1.8%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(15.20)+10.5%, MA20(14.23)+18.1%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(15.20)+10.5%, MA20(14...
+                                    
                                 
                             </td>
 
@@ -3441,20 +3706,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(15.20)+10.5%, MA20(14.23)+18.1%">
-                                
-                                    MA5(15.20)+10.5%, MA...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="小幅高开+1.8%，较12日最低价涨52.5%，目标回撤≥5%或至布林带中轨">
+                            <td class="analysis-cell" data-tooltip="小幅高开+1.8%，较12日最低价涨52.5%，目标回撤≥5%或至布林带中轨">
                                 
                                     小幅高开+1.8%，较12日最低价涨52...
                                 
@@ -3584,11 +3836,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    89
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-80-90">89</td>
+                                
+                            
 
                         
                         
@@ -3657,9 +3910,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="跳空低开-1.9%">
+                            
                                 
-                                    跳空低开-1.9%
+                                
+                                    <td class="jump-analysis-cell jump-low">跳空低开-1.9%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(7.34)+6.2%, MA20(7.03)+10.9%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(7.34)+6.2%, MA20(7.03...
+                                    
                                 
                             </td>
 
@@ -3670,20 +3941,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(7.34)+6.2%, MA20(7.03)+10.9%">
-                                
-                                    MA5(7.34)+6.2%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="跳空低开-1.9%，较12日最低价涨17.3%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="跳空低开-1.9%，较12日最低价涨17.3%，未达开空条件(需≥20%)">
                                 
                                     跳空低开-1.9%，较12日最低价涨17...
                                 
@@ -3813,11 +4071,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    82
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-80-90">82</td>
+                                
+                            
 
                         
                         
@@ -3862,7 +4121,7 @@ th.amount-header {
                         
                             
                             
-                                <td class="short-signal-yes">开空</td>
+                                <td class="short-signal-no">-</td>
                             
 
                         
@@ -3886,9 +4145,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="平开">
+                            
                                 
-                                    平开
+                                
+                                    <td class="jump-analysis-cell jump-neutral">平开</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(5.97)+5.7%, MA20(5.31)+18.7%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(5.97)+5.7%, MA20(5.31...
+                                    
                                 
                             </td>
 
@@ -3899,20 +4176,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(5.97)+5.7%, MA20(5.31)+18.7%">
-                                
-                                    MA5(5.97)+5.7%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="平开，较12日最低价涨43.1%，目标回撤≥5%或至布林带中轨">
+                            <td class="analysis-cell" data-tooltip="平开，较12日最低价涨43.1%，目标回撤≥5%或至布林带中轨">
                                 
                                     平开，较12日最低价涨43.1%，目标回...
                                 
@@ -4042,11 +4306,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    76
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-70-80">76</td>
+                                
+                            
 
                         
                         
@@ -4115,9 +4380,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="平开">
+                            
                                 
-                                    平开
+                                
+                                    <td class="jump-analysis-cell jump-neutral">平开</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(10.65)+1.3%, MA20(10.45)+3.1%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(10.65)+1.3%, MA20(10....
+                                    
                                 
                             </td>
 
@@ -4128,20 +4411,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(10.65)+1.3%, MA20(10.45)+3.1%">
-                                
-                                    MA5(10.65)+1.3%, MA2...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="平开，较12日最低价涨7.3%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="平开，较12日最低价涨7.3%，未达开空条件(需≥20%)">
                                 
                                     平开，较12日最低价涨7.3%，未达开空...
                                 
@@ -4271,11 +4541,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    50
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">50</td>
+                                
+                            
 
                         
                         
@@ -4344,9 +4615,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="平开">
+                            
                                 
-                                    平开
+                                
+                                    <td class="jump-analysis-cell jump-neutral">平开</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(9.86)+8.3%, MA20(9.42)+13.3%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(9.86)+8.3%, MA20(9.42...
+                                    
                                 
                             </td>
 
@@ -4357,20 +4646,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(9.86)+8.3%, MA20(9.42)+13.3%">
-                                
-                                    MA5(9.86)+8.3%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="平开，较12日最低价涨18.0%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="平开，较12日最低价涨18.0%，未达开空条件(需≥20%)">
                                 
                                     平开，较12日最低价涨18.0%，未达开...
                                 
@@ -4500,11 +4776,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    68
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">68</td>
+                                
+                            
 
                         
                         
@@ -4573,9 +4850,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="跳空高开+9.3%">
+                            
                                 
-                                    跳空高开+9.3%
+                                
+                                    <td class="jump-analysis-cell jump-high">跳空高开+9.3%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(9.85)+17.9%, MA20(9.76)+19.0%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(9.85)+17.9%, MA20(9.7...
+                                    
                                 
                             </td>
 
@@ -4586,20 +4881,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(9.85)+17.9%, MA20(9.76)+19.0%">
-                                
-                                    MA5(9.85)+17.9%, MA2...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="跳空高开+9.3%，较12日最低价涨27.6%，目标回撤至MA20(≥15.9%)">
+                            <td class="analysis-cell" data-tooltip="跳空高开+9.3%，较12日最低价涨27.6%，目标回撤至MA20(≥15.9%)">
                                 
                                     跳空高开+9.3%，较12日最低价涨27...
                                 
@@ -4729,11 +5011,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    55
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">55</td>
+                                
+                            
 
                         
                         
@@ -4802,9 +5085,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="平开">
+                            
                                 
-                                    平开
+                                
+                                    <td class="jump-analysis-cell jump-neutral">平开</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(6.02)-2.0%, MA20(5.90)+0.0%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(6.02)-2.0%, MA20(5.90...
+                                    
                                 
                             </td>
 
@@ -4815,20 +5116,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(6.02)-2.0%, MA20(5.90)+0.0%">
-                                
-                                    MA5(6.02)-2.0%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="平开，较12日最低价涨6.9%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="平开，较12日最低价涨6.9%，未达开空条件(需≥20%)">
                                 
                                     平开，较12日最低价涨6.9%，未达开空...
                                 
@@ -4958,11 +5246,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    62
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">62</td>
+                                
+                            
 
                         
                         
@@ -5031,9 +5320,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="小幅高开+2.8%">
+                            
                                 
-                                    小幅高开+2.8%
+                                
+                                    <td class="jump-analysis-cell jump-high">小幅高开+2.8%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(4.03)+7.8%, MA20(3.66)+18.4%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(4.03)+7.8%, MA20(3.66...
+                                    
                                 
                             </td>
 
@@ -5044,20 +5351,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(4.03)+7.8%, MA20(3.66)+18.4%">
-                                
-                                    MA5(4.03)+7.8%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="小幅高开+2.8%，较12日最低价涨29.6%，目标回撤≥3%或至MA5">
+                            <td class="analysis-cell" data-tooltip="小幅高开+2.8%，较12日最低价涨29.6%，目标回撤≥3%或至MA5">
                                 
                                     小幅高开+2.8%，较12日最低价涨29...
                                 
@@ -5187,11 +5481,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    79
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-70-80">79</td>
+                                
+                            
 
                         
                         
@@ -5260,9 +5555,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="平开">
+                            
                                 
-                                    平开
+                                
+                                    <td class="jump-analysis-cell jump-neutral">平开</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(3.71)-1.7%, MA20(3.90)-6.4%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(3.71)-1.7%, MA20(3.90...
+                                    
                                 
                             </td>
 
@@ -5273,20 +5586,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(3.71)-1.7%, MA20(3.90)-6.4%">
-                                
-                                    MA5(3.71)-1.7%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="平开，较12日最低价涨0.8%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="平开，较12日最低价涨0.8%，未达开空条件(需≥20%)">
                                 
                                     平开，较12日最低价涨0.8%，未达开空...
                                 
@@ -5416,11 +5716,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    72
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-70-80">72</td>
+                                
+                            
 
                         
                         
@@ -5489,9 +5790,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="平开">
+                            
                                 
-                                    平开
+                                
+                                    <td class="jump-analysis-cell jump-neutral">平开</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(3.86)-0.8%, MA20(4.16)-7.8%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(3.86)-0.8%, MA20(4.16...
+                                    
                                 
                             </td>
 
@@ -5502,20 +5821,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(3.86)-0.8%, MA20(4.16)-7.8%">
-                                
-                                    MA5(3.86)-0.8%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="平开，较12日最低价涨1.1%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="平开，较12日最低价涨1.1%，未达开空条件(需≥20%)">
                                 
                                     平开，较12日最低价涨1.1%，未达开空...
                                 
@@ -5645,11 +5951,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    100
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-90-100">100</td>
+                                
+                            
 
                         
                         
@@ -5694,7 +6001,7 @@ th.amount-header {
                         
                             
                             
-                                <td class="short-signal-no">-</td>
+                                <td class="short-signal-yes">开空</td>
                             
 
                         
@@ -5718,9 +6025,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="跳空高开+6.0%">
+                            
                                 
-                                    跳空高开+6.0%
+                                
+                                    <td class="jump-analysis-cell jump-high">跳空高开+6.0%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(6.89)+8.1%, MA20(7.15)+4.2%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(6.89)+8.1%, MA20(7.15...
+                                    
                                 
                             </td>
 
@@ -5731,20 +6056,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(6.89)+8.1%, MA20(7.15)+4.2%">
-                                
-                                    MA5(6.89)+8.1%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="跳空高开+6.0%，较12日最低价涨10.5%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="跳空高开+6.0%，较12日最低价涨10.5%，未达开空条件(需≥20%)">
                                 
                                     跳空高开+6.0%，较12日最低价涨10...
                                 
@@ -5874,11 +6186,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    97
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-90-100">97</td>
+                                
+                            
 
                         
                         
@@ -5923,7 +6236,7 @@ th.amount-header {
                         
                             
                             
-                                <td class="short-signal-no">-</td>
+                                <td class="short-signal-yes">开空</td>
                             
 
                         
@@ -5947,9 +6260,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="小幅高开+1.0%">
+                            
                                 
-                                    小幅高开+1.0%
+                                
+                                    <td class="jump-analysis-cell jump-high">小幅高开+1.0%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(25.15)+6.1%, MA20(23.95)+11.4%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(25.15)+6.1%, MA20(23....
+                                    
                                 
                             </td>
 
@@ -5960,20 +6291,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(25.15)+6.1%, MA20(23.95)+11.4%">
-                                
-                                    MA5(25.15)+6.1%, MA2...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="小幅高开+1.0%，较12日最低价涨21.2%，目标回撤≥3%或至MA5">
+                            <td class="analysis-cell" data-tooltip="小幅高开+1.0%，较12日最低价涨21.2%，目标回撤≥3%或至MA5">
                                 
                                     小幅高开+1.0%，较12日最低价涨21...
                                 
@@ -6103,11 +6421,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    100
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-90-100">100</td>
+                                
+                            
 
                         
                         
@@ -6176,9 +6495,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="平开">
+                            
                                 
-                                    平开
+                                
+                                    <td class="jump-analysis-cell jump-neutral">平开</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(6.47)-1.5%, MA20(6.84)-6.9%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(6.47)-1.5%, MA20(6.84...
+                                    
                                 
                             </td>
 
@@ -6189,20 +6526,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(6.47)-1.5%, MA20(6.84)-6.9%">
-                                
-                                    MA5(6.47)-1.5%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="平开，较12日最低价涨0.0%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="平开，较12日最低价涨0.0%，未达开空条件(需≥20%)">
                                 
                                     平开，较12日最低价涨0.0%，未达开空...
                                 
@@ -6332,11 +6656,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    46
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">46</td>
+                                
+                            
 
                         
                         
@@ -6381,7 +6706,7 @@ th.amount-header {
                         
                             
                             
-                                <td class="short-signal-no">-</td>
+                                <td class="short-signal-yes">开空</td>
                             
 
                         
@@ -6405,9 +6730,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="跳空高开+5.7%">
+                            
                                 
-                                    跳空高开+5.7%
+                                
+                                    <td class="jump-analysis-cell jump-high">跳空高开+5.7%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(7.19)+6.6%, MA20(7.27)+5.4%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(7.19)+6.6%, MA20(7.27...
+                                    
                                 
                             </td>
 
@@ -6418,20 +6761,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(7.19)+6.6%, MA20(7.27)+5.4%">
-                                
-                                    MA5(7.19)+6.6%, MA20...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="跳空高开+5.7%，较12日最低价涨13.3%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="跳空高开+5.7%，较12日最低价涨13.3%，未达开空条件(需≥20%)">
                                 
                                     跳空高开+5.7%，较12日最低价涨13...
                                 
@@ -6558,11 +6888,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    66
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">66</td>
+                                
+                            
 
                         
                         
@@ -6631,9 +6962,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="跳空低开-1.2%">
+                            
                                 
-                                    跳空低开-1.2%
+                                
+                                    <td class="jump-analysis-cell jump-low">跳空低开-1.2%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(13.89)+2.6%, MA20(13.49)+5.7%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(13.89)+2.6%, MA20(13....
+                                    
                                 
                             </td>
 
@@ -6644,20 +6993,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(13.89)+2.6%, MA20(13.49)+5.7%">
-                                
-                                    MA5(13.89)+2.6%, MA2...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="跳空低开-1.2%，较12日最低价涨11.5%，未达开空条件(需≥20%)">
+                            <td class="analysis-cell" data-tooltip="跳空低开-1.2%，较12日最低价涨11.5%，未达开空条件(需≥20%)">
                                 
                                     跳空低开-1.2%，较12日最低价涨11...
                                 
@@ -6787,11 +7123,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    52
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">52</td>
+                                
+                            
 
                         
                         
@@ -6860,9 +7197,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="跳空高开+5.0%">
+                            
                                 
-                                    跳空高开+5.0%
+                                
+                                    <td class="jump-analysis-cell jump-high">跳空高开+5.0%</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="MA5(4.03)+10.0%, MA20(3.66)+20.9%">
+                                
+                                    
+                                    
+                                    
+                                        MA5(4.03)+10.0%, MA20(3.6...
+                                    
                                 
                             </td>
 
@@ -6873,20 +7228,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="MA5(4.03)+10.0%, MA20(3.66)+20.9%">
-                                
-                                    MA5(4.03)+10.0%, MA2...
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="跳空高开+5.0%，较12日最低价涨32.2%，目标回撤至MA20(≥17.3%)">
+                            <td class="analysis-cell" data-tooltip="跳空高开+5.0%，较12日最低价涨32.2%，目标回撤至MA20(≥17.3%)">
                                 
                                     跳空高开+5.0%，较12日最低价涨32...
                                 
@@ -7016,11 +7358,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    97
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-90-100">97</td>
+                                
+                            
 
                         
                         
@@ -7089,9 +7432,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
+                            
                                 
-                                    nan
+                                
+                                    <td class="jump-analysis-cell jump-neutral">nan</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="nan">
+                                
+                                    
+                                    
+                                    
+                                        nan
+                                    
                                 
                             </td>
 
@@ -7102,20 +7463,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
-                                
-                                    nan
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="非开空时间窗口(仅9:45-10:00)">
+                            <td class="analysis-cell" data-tooltip="非开空时间窗口(仅9:45-10:00)">
                                 
                                     非开空时间窗口(仅9:45-10:00)
                                 
@@ -7245,11 +7593,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    68
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">68</td>
+                                
+                            
 
                         
                         
@@ -7318,9 +7667,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
+                            
                                 
-                                    nan
+                                
+                                    <td class="jump-analysis-cell jump-neutral">nan</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="nan">
+                                
+                                    
+                                    
+                                    
+                                        nan
+                                    
                                 
                             </td>
 
@@ -7331,20 +7698,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
-                                
-                                    nan
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="非开空时间窗口(仅9:45-10:00)">
+                            <td class="analysis-cell" data-tooltip="非开空时间窗口(仅9:45-10:00)">
                                 
                                     非开空时间窗口(仅9:45-10:00)
                                 
@@ -7474,11 +7828,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    82
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-80-90">82</td>
+                                
+                            
 
                         
                         
@@ -7547,9 +7902,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
+                            
                                 
-                                    nan
+                                
+                                    <td class="jump-analysis-cell jump-neutral">nan</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="nan">
+                                
+                                    
+                                    
+                                    
+                                        nan
+                                    
                                 
                             </td>
 
@@ -7560,20 +7933,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
-                                
-                                    nan
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="非开空时间窗口(仅9:45-10:00)">
+                            <td class="analysis-cell" data-tooltip="非开空时间窗口(仅9:45-10:00)">
                                 
                                     非开空时间窗口(仅9:45-10:00)
                                 
@@ -7703,11 +8063,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    52
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">52</td>
+                                
+                            
 
                         
                         
@@ -7776,9 +8137,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
+                            
                                 
-                                    nan
+                                
+                                    <td class="jump-analysis-cell jump-neutral">nan</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="nan">
+                                
+                                    
+                                    
+                                    
+                                        nan
+                                    
                                 
                             </td>
 
@@ -7789,20 +8168,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
-                                
-                                    nan
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="非开空时间窗口(仅9:45-10:00)">
+                            <td class="analysis-cell" data-tooltip="非开空时间窗口(仅9:45-10:00)">
                                 
                                     非开空时间窗口(仅9:45-10:00)
                                 
@@ -7932,11 +8298,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    35
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">35</td>
+                                
+                            
 
                         
                         
@@ -8005,9 +8372,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
+                            
                                 
-                                    nan
+                                
+                                    <td class="jump-analysis-cell jump-neutral">nan</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="nan">
+                                
+                                    
+                                    
+                                    
+                                        nan
+                                    
                                 
                             </td>
 
@@ -8018,20 +8403,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
-                                
-                                    nan
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="非开空时间窗口(仅9:45-10:00)">
+                            <td class="analysis-cell" data-tooltip="非开空时间窗口(仅9:45-10:00)">
                                 
                                     非开空时间窗口(仅9:45-10:00)
                                 
@@ -8161,11 +8533,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    34
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">34</td>
+                                
+                            
 
                         
                         
@@ -8234,9 +8607,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
+                            
                                 
-                                    nan
+                                
+                                    <td class="jump-analysis-cell jump-neutral">nan</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="nan">
+                                
+                                    
+                                    
+                                    
+                                        nan
+                                    
                                 
                             </td>
 
@@ -8247,20 +8638,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
-                                
-                                    nan
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="非开空时间窗口(仅9:45-10:00)">
+                            <td class="analysis-cell" data-tooltip="非开空时间窗口(仅9:45-10:00)">
                                 
                                     非开空时间窗口(仅9:45-10:00)
                                 
@@ -8390,11 +8768,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    80
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-80-90">80</td>
+                                
+                            
 
                         
                         
@@ -8463,9 +8842,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
+                            
                                 
-                                    nan
+                                
+                                    <td class="jump-analysis-cell jump-neutral">nan</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="nan">
+                                
+                                    
+                                    
+                                    
+                                        nan
+                                    
                                 
                             </td>
 
@@ -8476,20 +8873,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
-                                
-                                    nan
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="非开空时间窗口(仅9:45-10:00)">
+                            <td class="analysis-cell" data-tooltip="非开空时间窗口(仅9:45-10:00)">
                                 
                                     非开空时间窗口(仅9:45-10:00)
                                 
@@ -8616,11 +9000,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    76
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-70-80">76</td>
+                                
+                            
 
                         
                         
@@ -8689,9 +9074,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
+                            
                                 
-                                    nan
+                                
+                                    <td class="jump-analysis-cell jump-neutral">nan</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="nan">
+                                
+                                    
+                                    
+                                    
+                                        nan
+                                    
                                 
                             </td>
 
@@ -8702,20 +9105,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
-                                
-                                    nan
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="非开空时间窗口(仅9:45-10:00)">
+                            <td class="analysis-cell" data-tooltip="非开空时间窗口(仅9:45-10:00)">
                                 
                                     非开空时间窗口(仅9:45-10:00)
                                 
@@ -8845,11 +9235,12 @@ th.amount-header {
 
                         
                         
-                            <td class="signal-score-cell">
+                            
                                 
-                                    61
                                 
-                            </td>
+                                    <td class="signal-score-cell signal-below-70">61</td>
+                                
+                            
 
                         
                         
@@ -8918,9 +9309,27 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
+                            
                                 
-                                    nan
+                                
+                                    <td class="jump-analysis-cell jump-neutral">nan</td>
+                                
+                            
+
+                        
+                        
+                    
+                        
+
+                        
+                        
+                            <td class="tech-analysis-cell" data-tooltip="nan">
+                                
+                                    
+                                    
+                                    
+                                        nan
+                                    
                                 
                             </td>
 
@@ -8931,20 +9340,7 @@ th.amount-header {
 
                         
                         
-                            <td class="analysis-cell" title="nan">
-                                
-                                    nan
-                                
-                            </td>
-
-                        
-                        
-                    
-                        
-
-                        
-                        
-                            <td class="analysis-cell" title="非开空时间窗口(仅9:45-10:00)">
+                            <td class="analysis-cell" data-tooltip="非开空时间窗口(仅9:45-10:00)">
                                 
                                     非开空时间窗口(仅9:45-10:00)
                                 
@@ -9001,7 +9397,7 @@ th.amount-header {
 
         
         <div class="stats-container">
-            <h3 style="color: #2e7d32;">📊 数据统计</h3>
+            <h3 style="color: #c62828;">📊 数据统计</h3>
             <div class="stats-grid">
                 
                 <div class="stat-card">
@@ -9022,11 +9418,6 @@ th.amount-header {
                 </div>
                 
                 
-                
-                <div class="stat-card">
-                    <div class="stat-label">开空信号数</div>
-                    <div class="stat-value">10</div>
-                </div>
                 
                 
                 <div class="stat-card">
@@ -9051,6 +9442,85 @@ th.amount-header {
                         this.classList.remove('scrolled');
                     }
                 });
+            }
+
+            // 创建悬浮提示框
+            let tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            document.body.appendChild(tooltip);
+
+            // 为有data-tooltip属性的元素添加悬浮提示
+            const tooltipElements = document.querySelectorAll('[data-tooltip]');
+            tooltipElements.forEach(element => {
+                element.addEventListener('mouseenter', function(e) {
+                    const text = this.getAttribute('data-tooltip');
+                    if (text && text !== '-' && text !== '') {
+                        tooltip.innerHTML = formatTooltipText(text);
+                        tooltip.classList.add('show');
+                        positionTooltip(e, tooltip);
+                    }
+                });
+
+                element.addEventListener('mousemove', function(e) {
+                    if (tooltip.classList.contains('show')) {
+                        positionTooltip(e, tooltip);
+                    }
+                });
+
+                element.addEventListener('mouseleave', function() {
+                    tooltip.classList.remove('show');
+                });
+            });
+
+            // 格式化提示文本
+            function formatTooltipText(text) {
+                // 高亮MA数据
+                text = text.replace(/MA(\d+)/g, '<span style="color: #ffeb3b; font-weight: bold;">MA$1</span>');
+                // 高亮百分比
+                text = text.replace(/([+-]?\d+\.?\d*%)/g, '<span style="color: #64b5f6; font-weight: bold;">$1</span>');
+                // 高亮价格（括号内的数字）
+                text = text.replace(/\((\d+\.?\d*)\)/g, '(<span style="color: #81c784;">$1</span>)');
+                // 将逗号替换为换行，使内容更易读
+                text = text.replace(/,\s*/g, '<br>');
+                return text;
+            }
+
+            // 定位提示框
+            function positionTooltip(e, tooltip) {
+                const x = e.pageX;
+                const y = e.pageY;
+                const tooltipWidth = tooltip.offsetWidth;
+                const tooltipHeight = tooltip.offsetHeight;
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                const scrollY = window.pageYOffset;
+                const scrollX = window.pageXOffset;
+
+                // 默认在鼠标下方，水平居中
+                let left = x - tooltipWidth / 2;
+                let top = y + 15;
+
+                // 标记提示框位置
+                tooltip.classList.remove('tooltip-top');
+
+                // 防止超出右边界
+                if (left + tooltipWidth > windowWidth + scrollX - 10) {
+                    left = windowWidth + scrollX - tooltipWidth - 10;
+                }
+
+                // 防止超出左边界
+                if (left < scrollX + 10) {
+                    left = scrollX + 10;
+                }
+
+                // 如果下方空间不够，显示在上方
+                if (top + tooltipHeight > windowHeight + scrollY - 10) {
+                    top = y - tooltipHeight - 15;
+                    tooltip.classList.add('tooltip-top');  // 添加上方显示的类
+                }
+
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
             }
         });
     </script>
