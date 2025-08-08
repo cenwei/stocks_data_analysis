@@ -371,19 +371,148 @@ th.amount-header {
     text-align: center;
 }
 
-/* 涨幅列 */
-.change-positive {
-    color: #d32f2f;
-    font-weight: 500;
+/* 涨幅列 - 可视化进度条样式 */
+.change-cell {
+    position: relative;
+    padding: 4px 8px;
+    min-width: 120px;
 }
 
-.change-negative {
-    color: #388e3c;
-    font-weight: 500;
+.change-bar-container {
+    position: relative;
+    width: 100%;
+    height: 24px;
+    background: #f5f5f5;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 }
 
-.change-neutral {
+.change-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 12px;
+    transition: width 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.change-bar-positive {
+    background: linear-gradient(90deg, #ffcdd2 0%, #ef5350 100%);
+}
+
+.change-bar-negative {
+    background: linear-gradient(90deg, #c8e6c9 0%, #66bb6a 100%);
+}
+
+.change-value {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    line-height: 24px;
+    font-weight: 600;
+    font-size: 12px;
+    z-index: 1;
+    text-shadow: 0 1px 2px rgba(255,255,255,0.8);
+}
+
+.change-value-positive {
+    color: #c62828;
+}
+
+.change-value-negative {
+    color: #2e7d32;
+}
+
+.change-value-neutral {
     color: #757575;
+}
+
+/* 备选方案：数字标签样式 */
+.change-tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    min-width: 60px;
+    text-align: center;
+}
+
+.change-tag-high {
+    background: linear-gradient(135deg, #ff5252 0%, #ff1744 100%);
+    color: white;
+    box-shadow: 0 2px 4px rgba(255, 23, 68, 0.3);
+}
+
+.change-tag-medium-high {
+    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    color: white;
+    box-shadow: 0 2px 4px rgba(245, 124, 0, 0.3);
+}
+
+.change-tag-medium {
+    background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+    color: #5d4037;
+    box-shadow: 0 2px 4px rgba(255, 179, 0, 0.3);
+}
+
+.change-tag-low {
+    background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+    color: #1b5e20;
+    box-shadow: 0 2px 4px rgba(165, 214, 167, 0.3);
+}
+
+.change-tag-negative {
+    background: linear-gradient(135deg, #81c784 0%, #4caf50 100%);
+    color: white;
+    box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+/* 热力图色块样式 */
+.change-heatmap {
+    padding: 6px 10px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.change-heat-50plus {
+    background: #b71c1c;
+    color: white;
+}
+
+.change-heat-40-50 {
+    background: #d32f2f;
+    color: white;
+}
+
+.change-heat-30-40 {
+    background: #f44336;
+    color: white;
+}
+
+.change-heat-20-30 {
+    background: #ff7961;
+    color: white;
+}
+
+.change-heat-10-20 {
+    background: #ffcdd2;
+    color: #b71c1c;
+}
+
+.change-heat-0-10 {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.change-heat-negative {
+    background: #c8e6c9;
+    color: #1b5e20;
 }
 
 /* 分析类列 - 优化版 */
@@ -620,7 +749,7 @@ th.amount-header {
             <h1>股票数据监控</h1>
             <div class="header-info">
                 <div>A股 | 2025年08月08日</div>
-                <div>生成时间: 15:42:44</div>
+                <div>生成时间: 16:09:51</div>
                 <div>数据条数: 37</div>
             </div>
         </div>
@@ -776,7 +905,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -847,12 +983,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-20-30">24.11%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">24.11%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -1008,7 +1158,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -1079,12 +1236,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-40-50">44.69%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">44.69%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -1243,7 +1414,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -1314,12 +1492,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-20-30">22.97%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">22.97%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -1478,7 +1670,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -1549,12 +1748,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-30-40">39.56%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">39.56%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -1713,7 +1926,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -1784,12 +2004,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-30-40">30.55%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">30.55%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -1948,7 +2182,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -2019,12 +2260,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-30-40">30.09%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">30.09%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -2183,7 +2438,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -2254,12 +2516,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-10-20">17.53%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">17.53%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -2418,7 +2694,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -2489,12 +2772,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-20-30">28.11%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">28.11%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -2653,7 +2950,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -2724,12 +3028,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">9.78%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">9.78%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -2888,7 +3206,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -2959,12 +3284,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">9.89%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">9.89%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -3123,7 +3462,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -3194,12 +3540,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">6.51%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">6.51%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -3355,7 +3715,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -3426,12 +3793,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">2.52%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">2.52%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -3590,7 +3971,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -3661,12 +4049,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-50plus">52.45%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">52.45%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -3825,7 +4227,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -3896,12 +4305,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-10-20">17.29%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">17.29%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -4060,7 +4483,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -4131,12 +4561,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-40-50">43.08%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">43.08%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -4295,7 +4739,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -4366,12 +4817,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">7.26%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">7.26%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -4530,7 +4995,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -4601,12 +5073,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-10-20">18.03%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">18.03%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -4765,7 +5251,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -4836,12 +5329,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-20-30">27.58%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">27.58%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -5000,7 +5507,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -5071,12 +5585,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">6.88%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">6.88%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -5235,7 +5763,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -5306,12 +5841,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-20-30">29.55%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">29.55%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -5470,7 +6019,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -5541,12 +6097,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">0.83%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">0.83%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -5705,7 +6275,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -5776,12 +6353,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">1.06%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">1.06%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -5940,7 +6531,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -6011,12 +6609,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-10-20">10.53%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">10.53%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -6175,7 +6787,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -6246,12 +6865,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-20-30">21.16%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">21.16%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -6410,7 +7043,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -6481,12 +7121,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">0.00%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">0.00%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -6645,7 +7299,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -6716,12 +7377,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-10-20">13.31%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">13.31%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -6877,7 +7552,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -6948,12 +7630,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-10-20">11.49%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">11.49%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -7112,7 +7808,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -7183,12 +7886,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-30-40">32.24%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">32.24%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -7347,7 +8064,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -7418,12 +8142,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-10-20">12.61%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">12.61%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -7582,7 +8320,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -7653,12 +8398,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">8.66%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">8.66%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -7817,7 +8576,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -7888,12 +8654,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-10-20">17.31%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">17.31%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -8052,7 +8832,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -8123,12 +8910,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">6.78%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">6.78%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -8287,7 +9088,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -8358,12 +9166,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">1.85%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">1.85%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -8522,7 +9344,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -8593,12 +9422,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">3.17%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">3.17%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -8757,7 +9600,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -8828,12 +9678,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-10-20">10.03%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">10.03%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -8989,7 +9853,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐⭐⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -9060,12 +9931,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">5.28%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">5.28%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -9224,7 +10109,14 @@ th.amount-header {
                         
                             <td class="star-cell">
                                 
-                                    <span class="empty-cell">-</span>
+                                    
+                                    
+                                    
+                                        
+                                        
+                                            ⭐⭐
+                                        
+                                    
                                 
                             </td>
 
@@ -9295,12 +10187,26 @@ th.amount-header {
 
                         
                         
-                            
+                            <td class="change-cell">
                                 
+                                    
+                                    
+                                    
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+
+                                        
+                                        
+                                            <div class="change-heatmap change-heat-0-10">2.07%</div>
+                                        
+                                    
                                 
-                                    <td class="change-neutral">2.07%</td>
-                                
-                            
+                            </td>
 
                         
                         
@@ -9417,6 +10323,11 @@ th.amount-header {
                     <div class="stat-value">10</div>
                 </div>
                 
+                
+                <div class="stat-card">
+                    <div class="stat-label">五星股票数</div>
+                    <div class="stat-value">15</div>
+                </div>
                 
                 
                 
