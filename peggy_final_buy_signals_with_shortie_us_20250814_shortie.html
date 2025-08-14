@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>基于量能达标的偏离过大开空算法</title>
+  
+        <style>
+        body { font-family: 'Microsoft YaHei', Arial, sans-serif; margin: 15px; background: #f5fff5; }
+        .container { max-width: 1600px; margin: 0 auto; background: #fff; border-radius: 10px;
+                     box-shadow: 0 4px 15px rgba(76,114,76,.12); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #81c784 0%, #a5d6a7 100%); color: white; padding: 20px; text-align: center; }
+        .header h1 { font-size: 22px; margin: 0; }
+        .header-info { font-size: 12px; margin-top: 6px; opacity: .9; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 15px 0; }
+        th, td { border: 1px solid #e8f5e9; padding: 8px; text-align: center; font-size: 12px; }
+        th { background: #c8e6c9; color: #1b5e20; font-weight: 600; position: sticky; top: 0; z-index: 2; }
+        tbody tr:nth-child(even) { background-color: #f9fff9; }
+        tbody tr:hover { background-color: #e8f5e9; }
+        .repeat-header th { background: #e0f2f1; position: static; }
+        .top1 { background: #ffeb3b !important; font-weight: bold; }
+        .top2 { background: #bdbdbd !important; font-weight: bold; }
+        .top3 { background: #ff8a65 !important; font-weight: bold; }
+        .code-cell { font-family: 'Consolas', monospace; font-weight: 600; color: #4527a0; }
+        .name-cell { text-align: left; font-weight: 500; color: #1b5e20; }
+        .time-cell { font-weight: 700; color: #1565c0; letter-spacing: 0.3px; }
+        .time-cell .hh { font-variant-numeric: tabular-nums; padding-right: 2px; }
+        .time-cell .mm { font-variant-numeric: tabular-nums; padding-left: 2px; }
+        .high-price-cell { font-weight: 600; color: #e65100; background-color: #fff3e0; }
+        .target-price-cell { font-weight: 600; color: #2e7d32; background-color: #e8f5e9; }
+        .analysis-cell { text-align: left; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .pass { background: #c8e6c9; color: #1b5e20; font-weight: bold; }
+        .fail { background: rgba(255,205,210,.6); color: #b71c1c; font-weight: bold; }
+        </style>
+        
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔻 基于量能达标的偏离过大开空算法</h1>
+      <div class="header-info">
+        生成时间: 2025-08-14 22:02:30 |
+        数据条数: 9 | 市场: US
+      </div>
+    </div>
+    <table>
+      <thead><tr><th>时间</th><th>代码</th><th>股票名称</th><th>成交额(万美金)</th><th>成交成本</th><th>当日最高价</th><th>首根开盘价</th><th>昨日收盘价</th><th>高开(%)</th><th>置信度</th><th>出现次数</th><th>持仓/空头卖出</th><th>计算卖单目标价</th><th>条件1-高开</th><th>条件2-涨幅</th><th>条件3-布林带</th><th>条件4-红K</th><th>Shortie分析</th><th>RV3</th><th>RV4</th></tr></thead><tbody><tr><td class="time-cell"><span class="hh">09</span>:<span class="mm">45</span></td><td class="code-cell">ETHD</td><td class="name-cell">ProShares UltraShort Ether ETF</td><td class="top1">5537.95</td><td>3.645</td><td class="high-price-cell">3.73</td><td>3.7</td><td>3.4</td><td>8.82</td><td>100</td><td>1</td><td></td><td class="target-price-cell">3.69</td><td class="pass" title="✅条件1-高开达标">✅高开8.82%</td><td></td><td></td><td></td><td class="analysis-cell" title="无市场数据(查找失败:ETHD)">无市场数据(查找失败:ETHD)</td><td>21.018</td><td>2.24</td></tr><tr><td class="time-cell"><span class="hh">09</span>:<span class="mm">45</span></td><td class="code-cell">CIFR</td><td class="name-cell">Cipher Mining Inc</td><td class="top2">3046.52</td><td>4.985</td><td class="high-price-cell">5.18</td><td>4.99</td><td>4.9</td><td>1.84</td><td>94</td><td>1</td><td></td><td class="target-price-cell">5.13</td><td class="pass" title="✅条件1-高开达标">✅高开1.84%</td><td></td><td></td><td></td><td class="analysis-cell" title="无市场数据(查找失败:CIFR)">无市场数据(查找失败:CIFR)</td><td>8.821</td><td>2.864</td></tr><tr><td class="time-cell"><span class="hh">09</span>:<span class="mm">45</span></td><td class="code-cell">OUST</td><td class="name-cell">Ouster Inc</td><td class="top3">2620.68</td><td>33.93</td><td class="high-price-cell">34.52</td><td>31.49</td><td>33.11</td><td>-4.89</td><td>59</td><td>1</td><td></td><td class="target-price-cell">34.17</td><td class="fail" title="❌条件1-高开不达标">❌高开-4.89%(需≥1.8%)</td><td></td><td></td><td></td><td class="analysis-cell" title="无市场数据(查找失败:OUST)">无市场数据(查找失败:OUST)</td><td>5.202</td><td>1.019</td></tr><tr><td class="time-cell"><span class="hh">09</span>:<span class="mm">45</span></td><td class="code-cell">FLYE</td><td class="name-cell">Fly-E Group Inc</td><td>2605.85</td><td>7.505</td><td class="high-price-cell">8.09</td><td>6.98</td><td>7.5</td><td>-6.93</td><td>100</td><td>1</td><td></td><td class="target-price-cell">8.01</td><td class="fail" title="❌条件1-高开不达标">❌高开-6.93%(需≥1.8%)</td><td></td><td></td><td></td><td class="analysis-cell" title="无市场数据(查找失败:FLYE)">无市场数据(查找失败:FLYE)</td><td>24.954</td><td>2.791</td></tr><tr><td class="time-cell"><span class="hh">09</span>:<span class="mm">45</span></td><td class="code-cell">SMST</td><td class="name-cell">二倍做空MSTR ETF-Direxion</td><td>886.53</td><td>23.6</td><td class="high-price-cell">24.0706</td><td>23.6</td><td>22.39</td><td>5.4</td><td>52</td><td>1</td><td></td><td class="target-price-cell">23.83</td><td class="pass" title="✅条件1-高开达标">✅高开5.4%</td><td></td><td></td><td></td><td class="analysis-cell" title="无市场数据(查找失败:SMST)">无市场数据(查找失败:SMST)</td><td>6.951</td><td>1.123</td></tr><tr><td class="time-cell"><span class="hh">09</span>:<span class="mm">45</span></td><td class="code-cell">ABAT</td><td class="name-cell">American Battery Technology Co</td><td>418.98</td><td>2.548</td><td class="high-price-cell">2.65</td><td>2.47</td><td>2.47</td><td>0.0</td><td>45</td><td>1</td><td></td><td class="target-price-cell">2.62</td><td class="fail" title="❌条件1-高开不达标">❌高开0.0%(需≥1.8%)</td><td></td><td></td><td></td><td class="analysis-cell" title="无市场数据(查找失败:ABAT)">无市场数据(查找失败:ABAT)</td><td>6.882</td><td>1.197</td></tr><tr><td class="time-cell"><span class="hh">09</span>:<span class="mm">45</span></td><td class="code-cell">IMAB</td><td class="name-cell">天境生物</td><td>343.12</td><td>4.672</td><td class="high-price-cell">4.77</td><td>4.4</td><td>4.24</td><td>3.77</td><td>52</td><td>1</td><td></td><td class="target-price-cell">4.72</td><td class="pass" title="✅条件1-高开达标">✅高开3.77%</td><td></td><td></td><td></td><td class="analysis-cell" title="无市场数据(查找失败:IMAB)">无市场数据(查找失败:IMAB)</td><td>9.379</td><td>1.197</td></tr><tr><td class="time-cell"><span class="hh">09</span>:<span class="mm">45</span></td><td class="code-cell">ABVE</td><td class="name-cell">Above Food Ingredients Inc</td><td>231.67</td><td>2.02</td><td class="high-price-cell">2.2</td><td>2.02</td><td>2.03</td><td>-0.49</td><td>73</td><td>1</td><td></td><td class="target-price-cell">2.18</td><td class="fail" title="❌条件1-高开不达标">❌高开-0.49%(需≥1.8%)</td><td></td><td></td><td></td><td class="analysis-cell" title="无市场数据(查找失败:ABVE)">无市场数据(查找失败:ABVE)</td><td>15.152</td><td>1.628</td></tr><tr><td class="time-cell"><span class="hh">09</span>:<span class="mm">45</span></td><td class="code-cell">BTCZ</td><td class="name-cell">T-Rex 2X Inverse Bitcoin Daily</td><td>98.06</td><td>2.73</td><td class="high-price-cell">2.77</td><td>2.75</td><td>2.55</td><td>7.84</td><td>37</td><td>1</td><td></td><td class="target-price-cell">2.74</td><td class="pass" title="✅条件1-高开达标">✅高开7.84%</td><td></td><td></td><td></td><td class="analysis-cell" title="无市场数据(查找失败:BTCZ)">无市场数据(查找失败:BTCZ)</td><td>5.44</td><td>1.337</td></tr></tbody></table></div></body></html>
