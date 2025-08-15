@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>基于量能达标的偏离过大开空算法</title>
+  
+        <style>
+        body { font-family: 'Microsoft YaHei', Arial, sans-serif; margin: 15px; background: #f5fff5; }
+        .container { max-width: 1600px; margin: 0 auto; background: #fff; border-radius: 10px;
+                     box-shadow: 0 4px 15px rgba(76,114,76,.12); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #81c784 0%, #a5d6a7 100%); color: white; padding: 20px; text-align: center; }
+        .header h1 { font-size: 22px; margin: 0; }
+        .header-info { font-size: 12px; margin-top: 6px; opacity: .9; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 15px 0; }
+        th, td { border: 1px solid #e8f5e9; padding: 8px; text-align: center; font-size: 12px; }
+        th { background: #c8e6c9; color: #1b5e20; font-weight: 600; position: sticky; top: 0; z-index: 2; }
+        tbody tr:nth-child(even) { background-color: #f9fff9; }
+        tbody tr:hover { background-color: #e8f5e9; }
+        .repeat-header th { background: #e0f2f1; position: static; }
+        .top1 { background: #ffeb3b !important; font-weight: bold; }
+        .top2 { background: #bdbdbd !important; font-weight: bold; }
+        .top3 { background: #ff8a65 !important; font-weight: bold; }
+        .code-cell { font-family: 'Consolas', monospace; font-weight: 600; color: #4527a0; }
+        .name-cell { text-align: left; font-weight: 500; color: #1b5e20; }
+        .time-cell { font-weight: 700; color: #1565c0; letter-spacing: 0.3px; }
+        .time-cell .hh { font-variant-numeric: tabular-nums; padding-right: 2px; }
+        .time-cell .mm { font-variant-numeric: tabular-nums; padding-left: 2px; }
+        .high-price-cell { font-weight: 600; color: #e65100; background-color: #fff3e0; }
+        .target-price-cell { font-weight: 600; color: #2e7d32; background-color: #e8f5e9; }
+        .analysis-cell { text-align: left; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .pass { background: #c8e6c9; color: #1b5e20; font-weight: bold; }
+        .fail { background: rgba(255,205,210,.6); color: #b71c1c; font-weight: bold; }
+        </style>
+        
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔻 基于量能达标的偏离过大开空算法</h1>
+      <div class="header-info">
+        生成时间: 2025-08-15 23:27:26 |
+        数据条数: 3 | 市场: US
+      </div>
+    </div>
+    <table>
+      <thead><tr><th>时间</th><th>代码</th><th>股票名称</th><th>成交额(万美金)</th><th>成交成本</th><th>当日最高价</th><th>首根开盘价</th><th>昨日收盘价</th><th>高开(%)</th><th>置信度</th><th>出现次数</th><th>持仓/空头卖出</th><th>计算卖单目标价</th><th>条件1-高开</th><th>条件2-涨幅</th><th>条件3-布林带</th><th>条件4-红K</th><th>Shortie分析</th><th>RV3</th><th>RV4</th></tr></thead><tbody><tr><td class="time-cell"><span class="hh">09</span>:<span class="mm">45</span></td><td class="code-cell">IMAB</td><td class="name-cell">天境生物</td><td class="top1">615.26</td><td>5.215</td><td class="high-price-cell">5.74</td><td>5.215</td><td>5.16</td><td>1.07</td><td>19</td><td>1</td><td></td><td class="target-price-cell">5.68</td><td class="fail" title="❌条件1-高开不达标">❌高开1.07%(需≥1.8%)</td><td class="fail" title="❌条件2-涨幅不达标">❌涨幅198.0%(需20%-26%)</td><td class="fail" title="❌条件3-布林带不达标">❌无BB数据</td><td>⏳待实现(不计入条件)</td><td class="analysis-cell" title="满足0/3个条件，不符合开空">满足0/3个条件，不符合开空</td><td>9.55</td><td>1.129</td></tr><tr><td class="time-cell"><span class="hh">11</span>:<span class="mm">00</span></td><td class="code-cell">PGEN</td><td class="name-cell">Precigen Inc</td><td class="top1">5308.4</td><td>3.08</td><td class="high-price-cell">3.4288</td><td>2.6</td><td>1.85</td><td>40.54</td><td>100</td><td>1</td><td></td><td class="target-price-cell">3.39</td><td class="pass" title="✅条件1-高开达标">✅高开40.54%</td><td></td><td></td><td></td><td class="analysis-cell" title="非开空时间窗口(仅9:30-10:03)">非开空时间窗口(仅9:30-10:03)</td><td>112.535</td><td>13.75</td></tr><tr><td class="time-cell"><span class="hh">11</span>:<span class="mm">15</span></td><td class="code-cell">FOSL</td><td class="name-cell">福斯尔</td><td class="top1">218.94</td><td>2.931</td><td class="high-price-cell">3.22</td><td>2.45</td><td>2.35</td><td>4.26</td><td>14</td><td>1</td><td></td><td class="target-price-cell">3.19</td><td class="pass" title="✅条件1-高开达标">✅高开4.26%</td><td></td><td></td><td></td><td class="analysis-cell" title="非开空时间窗口(仅9:30-10:03)">非开空时间窗口(仅9:30-10:03)</td><td>9.828</td><td>1.121</td></tr></tbody></table></div></body></html>
